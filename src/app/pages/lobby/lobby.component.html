@@ -1,0 +1,115 @@
+<app-header></app-header>
+<div id="wrapper" class="wrapper py-4">
+    <div class="container">
+        <app-advertise-slider></app-advertise-slider>
+        <div class="bb-brawls-section mt-4">
+            <div class="row">
+                <div class="col-xl-9 col-lg-9 col-md-8 col-sm-6 col-6">
+                    <h1 class="rubik-bold text-white text-left">
+                        BRAWLS
+                    </h1>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 text-right">
+                    <a class="decoration create-brawl-btn rubik-regular text-white text-uppercase" (click)="create_brawl()">
+                        Create Brawls
+                    </a>
+                </div>
+            </div>
+            <div class="brawls-tabing">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink (click)="callApi('get-all-brawls-list')">ALL</a>
+                        <ng-template ngbNavContent>
+                            <div class="row" *ngIf="brawlData?.length > 0">
+                                <ng-container *ngFor="let contest of brawlData | filterLeague: activeLeagueData; let c = index;">
+                                    <app-contest-card [contestData]='contest' class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12"></app-contest-card>
+                                </ng-container>
+                                <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center mt-4 mb-5" *ngIf="seeMoreBt">
+                                    <a class="decoration see-more-btn rubik-regular text-white" (click)="seeMore('get-all-brawls-list')">{{ status.SEE_MORE.name }}<i class="fa fa-angle-right ml-2"></i></a>
+                                </div> -->
+                            </div>
+                            <div *ngIf="brawlData?.length == 0">
+                                <app-no-data-found></app-no-data-found>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink (click)="callApi('get-featured-brawls-list')">FEATURED</a>
+                        <ng-template ngbNavContent>
+                            <div class="row" *ngIf="brawlData?.length > 0">
+                                <ng-container *ngFor="let contest of brawlData | filterLeague: activeLeagueData; let c = index;">
+                                    <app-contest-card [contestData]='contest' class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12"></app-contest-card>
+                                </ng-container>
+                                <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center mt-4 mb-5" *ngIf="seeMoreBt">
+                                    <a class="decoration see-more-btn rubik-regular text-white" (click)="seeMore('get-featured-brawls-list')">{{ status.SEE_MORE.name }}<i class="fa fa-angle-right ml-2"></i></a>
+                                </div> -->
+                            </div>
+                            <div *ngIf="brawlData?.length == 0">
+                                <app-no-data-found></app-no-data-found>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                        <a ngbNavLink (click)="callApi('get-closing-soon-brawls-list')">CLOSING SOON</a>
+                        <ng-template ngbNavContent>
+                            <div class="row" *ngIf="brawlData?.length > 0">
+                                <ng-container *ngFor="let contest of brawlData | filterLeague: activeLeagueData; let c = index;">
+                                    <app-contest-card [contestData]='contest' class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12"></app-contest-card>
+                                </ng-container>
+                                <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center mt-4 mb-5" *ngIf="seeMoreBt">
+                                    <a class="decoration see-more-btn rubik-regular text-white" (click)="seeMore('get-closing-soon-brawls-list')">{{ status.SEE_MORE.name }}<i class="fa fa-angle-right ml-2"></i></a>
+                                </div> -->
+                            </div>
+                            <div *ngIf="brawlData?.length == 0">
+                                <app-no-data-found> </app-no-data-found>
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+                <div class="allFeaturedlosingSoon" *ngIf="leagueNameArray?.length > 0 && brawlData?.length > 0">
+                    <ul class="d-flex list-unstyled mb-0 league-filter-list">
+                        <ng-container *ngFor="let league of leagueInfo; let i = index;">
+                            <app-league-filter [leagueData]="league" [activeLeague]="activeLeagueData" (sortData)="sortToggle($event)" *ngIf="leagueNameArray.includes(league.name)">
+                            </app-league-filter>
+                        </ng-container>
+                    </ul>
+                </div>
+                <div [ngbNavOutlet]="nav" class="mt-5"></div>
+            </div>
+        </div>
+
+        <div class="bb-brawls-section mt-4">
+            <h1 class="rubik-bold text-white text-center text-uppercase">
+                how to play
+            </h1>
+            <div class="how-to-play mt-4">
+                <div class="row">
+                    <ng-container *ngFor="let hiw of howItWorksData; let h = index;">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 bb-custom-accordion mb-4">
+                            <app-how-to-paly-accordion [hiwData]="hiw"></app-how-to-paly-accordion>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="video-container-custom">
+                            <!-- <video id="vid" width="100%" height="470" poster="assets/images/video-thumb.png"
+                                (ended)="videoEnd()">
+                                <source
+                                    src="https://cdn.videvo.net/videvo_files/video/free/2021-02/large_watermarked/210206_01_Soccer%20Ball_4k_013_preview.mp4"
+                                    type="video/mp4">
+                            </video> -->
+                            <a (click)="playVideo()" class="video-play-pause play">
+                                <!-- <img src="assets/images/video-play.svg" class="img-fluid"> -->
+                            </a>
+                            <a (click)="pauseVideo()" class="video-play-pause pause">
+                                <!-- <img src="assets/images/video-pause.svg" class="img-fluid"> -->
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

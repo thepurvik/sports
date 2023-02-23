@@ -1,0 +1,73 @@
+<app-header></app-header>
+<div id="wrapper" class="wrapper py-4">
+    <div class="container">
+        <app-advertise-slider></app-advertise-slider>
+        <div class="bb-brawls-section mt-4">
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 align-self-center offset-md-2">
+                    <h1 class="rubik-bold text-white text-center text-uppercase mb-0">
+                        LeaderBoard
+                    </h1>
+                </div>
+                <!-- <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 text-right align-self-center">
+                    <input type="text" name="search" class="form-control score-search pl-5" id="search" placeholder="Search" autocomplete="off">
+                    <img src="assets/images/searchIcon.svg" class="img-fluid score-search-img">
+                </div> -->
+            </div>
+
+            <div class="allFeaturedlosingSoon p-md-4 p-sm-2 p-2">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-dark mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="rubik-bold font16">Rank</th>
+                                        <th class="rubik-bold font16">Player Name</th>
+                                        <th class="rubik-bold font16">Buddy Buck</th>
+                                        <th class="rubik-bold font16">Total Brawls</th>
+                                        <th class="rubik-bold font16">Badge Won</th>
+                                        <th class="rubik-bold font16">Belts Won</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let score of scoreInfo" [ngClass]="{'highlightTableColor': userId == score.buddy_id}">
+                                        <td class="rubik-regular font16" *ngIf="score.id <= 3"><img [src]="score.win_img" class="img-fluid"></td>
+                                        <td class="rubik-regular font16 pl-4" *ngIf="score.id > 3">{{score.id}}</td>
+                                        <!-- <td class="rubik-regular font16 pl-4">{{score.id}}</td> -->
+                                        <td class="rubik-regular font16">
+                                            <p class="text-white mb-0">
+                                                <div class="d-flex">
+                                                    <img [src]="score.image" onError="this.src='assets/images/user.svg'" class="img-fluid mr-3 score-player-image">
+                                                    <p class="m-0 score-player-name align-self-center" (click)="openLeaderBoardModel(score)">{{score.name}}
+                                                    </p>
+                                                    <ng-container *ngFor="let won_badge of score.won_badges">
+                                                        <img [src]="won_badge.badge" class="img-fluid won-badge-img">
+                                                    </ng-container>
+                                                </div>
+                                        </td>
+                                        <td class="rubik-regular font16" *ngIf="score.buddy_buck != null;else blankData">{{score.buddy_buck | number:'1.0-0'}}</td>
+                                        <td class="rubik-regular font16" *ngIf="score.total != null;else blankData">{{score.total | number:'1.0-0'}}</td>
+                                        <td class="rubik-regular font16" *ngIf="score.belts_won != null;else blankData">{{score.belts_won | number:'1.0-0'}}</td>
+                                        <td class="rubik-regular font16" *ngIf="score.total_win != null;else blankData">{{score.total_win | number:'1.0-0'}}</td>
+                                        <ng-template #blankData>
+                                            <td class="rubik-regular font16">-</td>
+                                        </ng-template>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div *ngIf="scoreInfo.length == 0">
+                                <app-no-data-found></app-no-data-found>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page" [maxSize]="1" (pageChange)="getPremiumData();" [boundaryLinks]="true">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

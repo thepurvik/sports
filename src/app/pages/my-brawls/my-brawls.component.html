@@ -1,0 +1,208 @@
+<app-header></app-header>
+<div id="wrapper" class="wrapper py-4">
+    <div class="container">
+        <app-advertise-slider></app-advertise-slider>
+        <div class="bb-brawls-section mt-4">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h1 class="rubik-bold text-white text-left mb-0">
+                        My Brawls
+                    </h1>
+                </div>
+            </div>
+
+            <div class="brawls-tabing">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink>ENTERED</a>
+                        <ng-template ngbNavContent>
+                            <div class="allFeaturedlosingSoon p-md-4 p-sm-2 p-2">
+                                <div class="row">
+                                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
+                                        <p class="rubik-medium mt-0 mb-2 font16 text-white text-uppercase">{{ joinBrawlList?.title }}
+                                        </p>
+                                        <!-- <p class="rubik-medium mt-0 mb-2 font16 text-success text-uppercase">1st place
+                                        </p> -->
+                                        <p class="rubik-regular mt-0 mb-2 font16 text-grey">Betting History - Last Updated: {{ joinBrawlList?.updatedat }}</p>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2 align-self-center text-right">
+                                        <a class="decoration create-brawl-btn rubik-regular text-dark-black text-uppercase" routerLink="/leader-board/{{id}}">
+                                            leaderboard
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row mt-4" *ngFor="let brawlList of joinBrawlList?.details; let i=index">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                                        <!-- activeIds="custom-panel-1" -->
+                                        <ng-container>
+                                            <ngb-accordion #a="ngbAccordion" class="brawls-accordion">
+                                                <ngb-panel id="custom-panel-1">
+                                                    <ng-template ngbPanelHeader let-opened="opened">
+                                                        <div class="row mb-4">
+                                                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
+                                                                <div class="row">
+                                                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-9 col-9">
+                                                                        <div class="d-flex">
+                                                                            <button ngbPanelToggle class="accor-arrow-btn mr-md-4 mr-sm-2 mr-2 mt-1">
+                                                                                <i class="fa fa-chevron-down font12"
+                                                                                    *ngIf="opened == false"></i>
+                                                                                <i class="fa fa-chevron-up font12"
+                                                                                    *ngIf="opened == true"></i>
+                                                                            </button>
+                                                                            <p class="rubik-bold font18 text-white my-brawl-contest-name mb-0" *ngIf="pgaLeague.league == 'PGA'">
+                                                                                {{pgaLeague.title}}
+                                                                            </p>
+                                                                            <p class="rubik-bold font18 text-white my-brawl-contest-name mb-0">
+                                                                                {{ getTeamName(brawlList.teams, brawlList.match[0].selection,brawlList.teams) }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-3 col-3">
+                                                                        <div class="d-flex" *ngIf="brawlList?.islive == '1'">
+                                                                            <div class="live-noti mr-2 align-self-center">
+                                                                            </div>
+                                                                            <p class="rubik-regular font16 text-white mb-0">
+                                                                                Live
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="px-5 mt-3">
+                                                                    <div class="row">
+                                                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 my-brawl-contest-date-logo">
+                                                                            <img class="img-fluid" src="assets/images/{{ joinBrawlList.league }}.svg"><span class="text-grey font16">{{
+                                                                                transformDate(brawlList.date) }}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12" *ngIf="brawlList.match[0].selection !== 'under' && brawlList.match[0].selection !== 'over'">
+                                                                <div class="live-score-board">
+                                                                    <p class="text-center text-grey text-uppercase mb-2 pb-2 font12 rubik-medium scorecard-text">
+                                                                        Scorecard</p>
+                                                                    <div class="row">
+                                                                        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 text-center align-self-center">
+                                                                            <p class="rubik-medium mt-0 mb-0 font14" [ngClass]="team1ScoreStyle(brawlList.match[0].teams_score)">
+                                                                                {{ brawlList.team_code[0] }}</p>
+                                                                            <!-- <p
+                                                                                class="rubik-regular mt-0 mb-0 text-white font14">
+                                                                                Thunder</p> -->
+                                                                        </div>
+                                                                        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 text-center align-self-center px-0">
+                                                                            <p class="m-0 font18 rubik-bold text-white">
+                                                                                {{convertScore(brawlList.match[0].teams_score)}}
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 text-center align-self-center">
+                                                                            <p class="rubik-medium mt-0 mb-0 font14" [ngClass]="team2ScoreStyle(brawlList.match[0].teams_score)">
+                                                                                {{ brawlList.team_code[1] }}</p>
+                                                                            <!-- <p
+                                                                                class="rubik-regular mt-0 mb-0 text-white font14">
+                                                                                Hornets</p> -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template ngbPanelContent>
+                                                        <div *ngFor="let matchList of brawlList.match" [ngClass]="{'row mb-3 position-relative':true, 'noImageDisplay':(brawlList.match.length > '1')}">
+                                                            <div class="selectTeamLineImg" *ngIf="brawlList.match.length > '1'">
+                                                                <img src="assets/images/teamLine.svg" class="img-fluid minHeight">
+                                                            </div>
+                                                            <div class="selectTeamLineImg1" *ngIf="brawlList.match.length == '1'">
+                                                                <img src="assets/images/teamdot.svg" class="img-fluid">
+                                                            </div>
+                                                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12">
+                                                                <div class="teamDetails1">
+                                                                    <a routerLink="/leader-board" class="rubik-bold font18 text-white mb-0 decoration cursor-pointer">
+                                                                        {{ matchList.team_name }}
+                                                                    </a>
+                                                                    <div class="runSpread my-3">
+                                                                        <div class="d-flex align-self-center mb-2">
+                                                                            <img src="assets/images/userIcon.svg" class="img-fluid mr-sm-2" *ngIf="matchList.selection == 'over' || matchList.selection == 'under'">
+                                                                            <img src="assets/images/teamIcon.svg" class="img-fluid mr-sm-2" *ngIf="matchList.selection !== 'over' && matchList.selection !== 'under'">
+                                                                            <p class="rubik-medium font12 text-white mb-0 text-uppercase">
+                                                                                {{ getSelection(matchList) }} ( {{ matchList.points }} )
+                                                                            </p>
+                                                                        </div>
+                                                                        <div *ngIf="matchList.type == 0">
+                                                                            <p class="rubik-regular font12 text-white mb-0 runspread-team selected-team-name">
+                                                                                {{ matchList.name}}
+                                                                                <!-- <span
+                                                                                    class="rubik-regular font12 text-white mb-0 runspread-team">
+                                                                                    @ </span>
+                                                                                <span
+                                                                                    class="rubik-regular font12 text-white mb-0 runspread-team">
+                                                                                    {{ matchList.teams[1] }}</span> -->
+                                                                            </p>
+                                                                        </div>
+                                                                        <div *ngIf="matchList.type == 1">
+                                                                            <p class="rubik-regular font12 text-white mb-0 runspread-team">
+                                                                                {{ matchList.name }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 align-self-center">
+                                                                <div class="d-lg-flex d-block justify-content-end">
+                                                                    <p class="rubik-regular font16 text-white mb-0 runspread-team">
+                                                                        Wager: <span class="rubik-bold font-weight-500 ml-1">{{
+                                                                            matchList.entryamount |
+                                                                            currency:'USD':'symbol':'1.0' }}</span>
+                                                                    </p>
+                                                                    <p class="rubik-regular font16 text-white mb-0 ml-lg-3 runspread-team">
+                                                                        To win: <span class="rubik-bold font-weight-500 ml-1">{{
+                                                                            matchList.towin |
+                                                                            currency:'USD':'symbol':'1.0' }}</span>
+                                                                    </p>
+                                                                    <p class="rubik-regular font16 text-white mb-0 ml-lg-3 runspread-team">
+                                                                        Potential Payout : <span [ngClass]="winStyle(matchList.type, matchList.win, matchList.selection)">{{
+                                                                            matchList.potential |
+                                                                            currency:'USD':'symbol':'1.0' }}</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </ngb-panel>
+                                            </ngb-accordion>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <!-- <li [ngbNavItem]="2">
+                        <a ngbNavLink>UPCOMING</a>
+                        <ng-template ngbNavContent>
+                            <div class="allFeaturedlosingSoon p-md-4 p-sm-2 p-2">
+                                Closing Soon
+                            </div>
+                        </ng-template>
+                    </li> -->
+                </ul>
+                <div [ngbNavOutlet]="nav" class="mt-5"></div>
+                <!-- <div class="allFeaturedlosingSoon p-md-4 p-sm-2 p-2">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
+                            <p class="rubik-medium mt-0 mb-2 font16 text-white text-uppercase">Victoria Jenkins</p>
+                            <p class="rubik-medium mt-0 mb-2 font16 text-success text-uppercase">1st place</p>
+                            <p class="rubik-regular mt-0 mb-2 font16 text-grey">Betting History - Last Updated:
+                                11/09/2021 3:05:31 AM</p>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2 align-self-center text-right">
+                            <a class="decoration create-brawl-btn rubik-regular text-dark-black text-uppercase"
+                                routerLink="/leaderboard">
+                                leaderboard
+                            </a>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
