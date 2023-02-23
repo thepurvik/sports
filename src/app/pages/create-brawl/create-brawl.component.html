@@ -1,0 +1,153 @@
+<app-header></app-header>
+<div id="wrapper" class="wrapper py-4">
+    <div class="container">
+        <app-advertise-slider></app-advertise-slider>
+        <div class="bb-brawls-section my-4">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+                    <h1 class="rubik-bold text-white text-uppercase">
+                        {{title}}
+                    </h1>
+                    <span *ngIf="!inviteType" class="rubik-regular text-white">Follow the steps below to create a Brawl.</span>
+                </div>
+            </div>
+        </div>
+        <div class="create-brawls-section">
+            <div class="create-brawls-wizard-main m-3">
+                <form [formGroup]="createBrawlsForm">
+                    <ng-wizard *ngIf="inviteType == false;else inviteTypeChages" [config]="config" (stepChanged)="stepChanged($event)" class="create-brawls-wizard">
+                        <ng-wizard-step [state]="stepOne.disabled" [title]="'Sport'" [canExit]="isValidFunctionReturnsBoolean.bind(this)">
+                            <h3 class="rubik-medium text-white text-center my-4">Choose a sport</h3>
+                            <div class="custom-radio-choose-sport text-center">
+                                <ng-container *ngFor="let data of brawlInfo; let i = index;">
+                                    <input type="radio" id="league{{data?.name}}" formControlName="league" value="{{data?.name}}">
+                                    <label for="league{{data?.name}}">
+                                        <div>
+                                            <img [src]="data.icon" class="sport-image">
+                                        </div>
+                                        <div class="mt-3">
+                                            {{data?.name}}
+                                        </div>
+                                    </label>
+                                </ng-container>
+                                <div *ngIf="submitted && f['league'].errors" class="text-danger font12">
+                                    <div *ngIf="f['league'].errors['required']">{{ status.SELECT_ONE_GAME.name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="text-center form-inline justify-content-center">
+                                <input type="checkbox" class="form-control custom-input " id="customCheck" formControlName="selectAll">
+                                <label class="text-white rubik-regular font16 pl-2" for="customCheck">Select All</label>
+                            </div> -->
+
+                        </ng-wizard-step>
+
+                        <ng-wizard-step [state]="stepOne.disabled" [title]="'Date and Time'" [canExit]="isValidFunctionReturnsBoolean.bind(this)">
+                            <h3 class="rubik-medium text-white text-center my-4">Choose a date for your Brawl</h3>
+                            <div class="mb-2">
+                                <select class="form-control BB-custom-control" id="dateTime" autocomplete="off" formControlName="teams">
+                                    <option disabled selected value="">Select date</option>
+                                    <option *ngFor="let dateMatch of date; let i = index;" [value]="dateMatch.date">{{dateMatch.date | date: 'MMMM d, y'}}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="submitted && f['teams'].errors" class="text-danger ml-1 font12">
+                                <div *ngIf="f['teams'].errors['required']">{{ status.SELECT_DATE_TIME.name }}
+                                </div>
+                            </div>
+                        </ng-wizard-step>
+
+                        <ng-wizard-step [state]="stepOne.disabled" [title]="'Details'" [canExit]="isValidFunctionReturnsBoolean.bind(this)">
+                            <h3 class="rubik-medium text-white text-center my-4">Choose your Brawl details</h3>
+                            <div>
+                                <label class="text-light-black font16 rubik-regular mb-1">Size Of Contest</label>
+                                <select class="form-control BB-custom-control" id="dateTime" autocomplete="off" formControlName="totalentry">
+                                    <option selected disabled value="">Select</option>
+                                    <option *ngFor="let entry of totalEntry;let i = index" [value]="entry.value">
+                                        {{entry.entryName}}</option>
+                                </select>
+                                <div *ngIf="submitted && f['totalentry'].errors" class="text-danger font12">
+                                    <div *ngIf="f['totalentry'].errors['required']">{{ status.SELECT_SIZE_CONTEST.name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <label class="text-light-black font16 rubik-regular mb-1">Brawl Title Name</label>
+                                <input type="text" class="form-control BB-custom-control" id="titlename" autocomplete="off" formControlName="title" placeholder="Enter a tilte name">
+                                <div *ngIf="submitted && f['title'].errors" class="text-danger font12">
+                                    <div *ngIf="f['title'].errors['required']">{{ status.TITLE_NAME_REQ.name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <label class="text-light-black font16 rubik-regular mb-1">Buddy Bucks</label>
+                                <input type="text" [readOnly]="true" (keypress)="numberOnly($event)" class="form-control BB-custom-control" id="entryfee" autocomplete="off" formControlName="entryamount" placeholder="Enter a entry Fee">
+                                <div *ngIf="submitted && f['entryamount'].errors" class="text-danger font12">
+                                    <div *ngIf="f['entryamount'].errors['required']">{{ status.ENTRY_FEES_REQ.name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 mb-4">
+                                <label class="text-light-black font16 rubik-regular mb-1">Badge</label>
+                                <select class="form-control BB-custom-control" id="badge" autocomplete="off" formControlName="isbadges">
+                                    <option selected disabled value="">Select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                                <div *ngIf="submitted && f['isbadges'].errors" class="text-danger font12">
+                                    <div *ngIf="f['isbadges'].errors['required']">{{ status.BADGE_REQ.name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 mb-4">
+                                <label class="text-light-black font16 rubik-regular mb-1">Featured</label>
+                                <select class="form-control BB-custom-control" id="featured" autocomplete="off" formControlName="isfeatured">
+                                    <option selected disabled value="">Select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                                <div *ngIf="submitted && f['isfeatured'].errors" class="text-danger font12">
+                                    <div *ngIf="f['isfeatured'].errors['required']">{{ status.FEATURES_REQ.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-wizard-step>
+
+                        <ng-wizard-step [title]="'Invite'" [canExit]="isValidFunctionReturnsBoolean.bind(this)">
+                            <h3 class="rubik-medium text-white text-center my-4">{{profileName}}, Invite your friends
+                            </h3>
+                            <div class="mt-3 mb-4 new-invite-friends">
+                                <input #searchbar (keyup)="fetchSeries(searchbar.value)" type="text" class="form-control BB-custom-control" id="search" autocomplete="off" (focus)="inviteFriends()" placeholder="Search Buddy Name">
+                                <i class="fa fa-close text-light searchCloseIcon" (click)="removeSearchValue()" *ngIf="!showMe"></i>
+                                <ul class="p-0 mx-0 mb-0 list-unstyled" [hidden]="isInvite">
+                                    <li *ngFor="let user of selectedUser.slice(0, limit)" class="list-unstyled">
+                                        <img [src]="user.profileImage" onError="this.src='assets/images/user.svg'" class="img-fluid mr-4 search-invite-image">{{user.name}}
+                                        <button class="btn-invite float-right mb-0 mt-2" type="button" (click)="invite(user._id)">INVITE</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-wizard-step>
+                    </ng-wizard>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #inviteTypeChages>
+    <ng-wizard [config]="config" (stepChanged)="stepChanged($event)" class="create-brawls-wizard invite">
+        <ng-wizard-step [title]="'Invite'" [canExit]="isValidFunctionReturnsBoolean.bind(this)">
+            <h3 class="rubik-medium text-white text-center my-4">{{profileName}}, Invite your friends
+            </h3>
+            <div class="mt-3 mb-4 new-invite-friends">
+                <input #searchbar (keyup)="fetchSeries(searchbar.value)" type="search" class="form-control BB-custom-control" id="search" autocomplete="off" (focus)="inviteFriends()" placeholder="Search Buddy Name">
+                <i class="fa fa-close text-light searchCloseIcon" (click)="removeSearchValue()" *ngIf="!showMe"></i>
+                <ul class="p-0 mx-0 mb-0 list-unstyled" [hidden]="isInvite">
+                    <li *ngFor="let user of selectedUser.slice(0, limit)" class="list-unstyled">
+                        <img [src]="user.profileImage" onError="this.src='assets/images/user.svg'" class="img-fluid mr-4 search-invite-image">{{user.name}}
+                        <button class="btn-invite float-right mb-0 mt-2" type="button" (click)="invite(user._id)">INVITE</button>
+                    </li>
+                </ul>
+            </div>
+        </ng-wizard-step>
+    </ng-wizard>
+</ng-template>>
+<app-footer></app-footer>

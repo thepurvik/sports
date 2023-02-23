@@ -1,0 +1,42 @@
+.text-countdown {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: inherit;
+    line-height: 1;
+    text-shadow: none;
+    margin: 10px 6px 8px 10px;
+}
+
+.vd {
+    max-width: 100%;
+}
+
+.modal-header {
+    position: relative;
+}
+
+.bb-confirmation-modal-inner {
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    bottom: 75px;
+    right: 25px;
+    z-index: 1;
+}
+
+.countdown {
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    background: rgba(0, 0, 0, .7);
+    border: 1px solid rgba(255, 255, 255, .5);
+    color: #fff;
+}
+
+.countdown:hover {
+    background: #BA973F;
+    border: 1px solid #fff;
+}

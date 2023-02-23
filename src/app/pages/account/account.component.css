@@ -1,0 +1,14 @@
+.title-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+::ng-deep .nodatafd .brawlsHistory-sec-sub {
+    border: 0 !important;
+    /* justify-content: space-around; */
+}
+
+.center {
+    justify-content: center !important;
+}

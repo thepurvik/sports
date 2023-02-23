@@ -1,0 +1,285 @@
+<div class="row brawls-slip-border-bottom pt-3" *ngFor="let data of selectGameListData;let i = index">
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 text-center pl-0">
+        <img src="assets/images/close-btn-icon.svg" class="img-fluid w-md-50 cursor-pointer"
+            (click)="clearTeam(i, data)">
+    </div>
+    <ng-container *ngIf="data.key === 'team'">
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 pl-0" *ngIf="data.type == 'runspread'">
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 col-md- 8 col-sm-8 col-8 p-0">
+                    <p class="text-white text-left rubik-regular mb-0 font16" *ngIf="data.data.team_name">
+                        {{data.data.team_name}} ,
+                        <span>{{getNUmberData(data.point)}}</span>
+
+                    </p>
+                    <!-- <ng-template #activeName>
+                    <p class="text-white text-left rubik-regular mb-0 font16">
+                        {{data.data.team2_name}} ,
+                            <span>{{data.data.run_spread_point}}</span>
+                    </p>
+                </ng-template> -->
+                    <span class="text-grey rubik-regular text-uppercase font12" *ngIf="data.type == 'runspread'">
+                        SPREAD
+                    </span>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                    <p class="text-white rubik-medium mb-0 text-right">
+                        <span>
+                            <span>{{ getNUmberData(data.value) }}</span>
+                            <!-- <ng-template #activeMoney>
+                            <span>{{item.s4}}</span>
+                        </ng-template> -->
+                        </span>
+                    </p>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 my-2 p-0">
+                    <p class="text-white rubik-regular mb-0 font10" *ngIf="data.data.team_name">
+                        {{data.data.team_name}} @ {{data.oppTeamName}}
+                    </p>
+                    <!-- <p class="text-white rubik-regular mb-0 font10" *ngIf="data.data.team2_name">
+                    {{data.data.team2_name}} @ {{data.oppTeamName}}
+                </p> -->
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 my-2">
+                    <p class="text-grey rubik-regular mb-0 text-right font10">
+                        {{data.data.date | date: 'shortTime'}}
+                    </p>
+                </div>
+                <form class="brawls-slip-form align-items-left w-100 form-row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div class="custom-form-group">
+                            <label for="wager" class="custom-label font12 align-items-left mb-0">Wager</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend m-0">
+                                    <span class="input-group-text custom-input-text">$</span>
+                                </div>
+                                <input type="text" (keypress)="numberOnly($event)" (keyup)="wagerLogic($event,i)"
+                                    class="form-control custom-form-control" id="wager">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div class="custom-form-group">
+                            <label for="towin" class="custom-label font12 align-items-left mb-0">To Win</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend m-0">
+                                    <span class="input-group-text custom-input-text">$
+                                        {{toWinList[i]?.winAmount}}</span>
+                                </div>
+                                <input [readOnly]="true" type="text" class="form-control custom-form-control"
+                                    id="towin">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 pl-0" *ngIf="data.type == 'total'">
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 col-md- 8 col-sm-8 col-8 p-0">
+                    <p class="text-white text-left rubik-regular mb-0 font16" *ngIf="data.data.team_name">
+                        {{data.data.team_name}} ,
+                        <span>{{getNUmberData(data.point)}}</span>
+
+                    </p>
+                    <!-- <ng-template #activeName>
+                    <p class="text-white text-left rubik-regular mb-0 font16">
+                        {{data.data.team2_name}} ,
+                            <span>{{data.data.total_point}}</span>
+                    </p>
+                </ng-template> -->
+                    <span class="text-grey rubik-regular text-uppercase font12">
+                        {{data.type}}
+                    </span>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                    <p class="text-white rubik-medium mb-0 text-right">
+                        <span>
+                            <span>{{ getNUmberData(data.value) }}</span>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 my-2 p-0">
+                    <p class="text-white rubik-regular mb-0 font10" *ngIf="data.data.team_name">
+                        {{data.data.team_name}} @ {{data?.oppTeamName}}
+                    </p>
+                    <!-- <p class="text-white rubik-regular mb-0 font10" *ngIf="data.data.team2_name">
+                    {{data.data.team2_name}} @ {{data.oppTeamName}}
+                </p> -->
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 my-2">
+                    <p class="text-grey rubik-regular mb-0 text-right font10">
+                        {{data.data.date | date: 'shortTime'}}
+                    </p>
+                </div>
+                <form class="brawls-slip-form align-items-left w-100 form-row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div class="custom-form-group">
+                            <label for="wager" class="custom-label font12 align-items-left mb-0">Wager</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend m-0">
+                                    <span class="input-group-text custom-input-text">$</span>
+                                </div>
+                                <input type="text" (keypress)="numberOnly($event)" (keyup)="wagerLogic($event,i)"
+                                    class="form-control custom-form-control" id="wager">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div class="custom-form-group">
+                            <label for="towin" class="custom-label font12 align-items-left mb-0">To Win</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend m-0">
+                                    <span class="input-group-text custom-input-text">$
+                                        {{toWinList[i]?.winAmount}}</span>
+                                </div>
+                                <input [readOnly]="true" type="text" class="form-control custom-form-control"
+                                    id="towin">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 pl-0" *ngIf="data.type == 'moneyline'">
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 col-md- 8 col-sm-8 col-8 p-0">
+                    <p class="text-white text-left rubik-regular mb-0 font16" *ngIf="data.data.team_name">
+                        {{data.data.team_name}}
+
+                    </p>
+                    <!-- <ng-template #activeName>
+                    <p class="text-white text-left rubik-regular mb-0 font16">
+                        {{data.data.team2_name}} 
+                    </p>
+                </ng-template> -->
+                    <span class="text-grey rubik-regular text-uppercase font12">
+                        {{data.type}}
+                    </span>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                    <p class="text-white rubik-medium mb-0 text-right">
+                        <span>
+                            <span>{{ getNUmberData(data.point) }}</span>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 my-2 p-0">
+                    <p class="text-white rubik-regular mb-0 font10" *ngIf="data.data.team_name">
+                        {{data.data.team_name}} @ {{data?.oppTeamName}}
+                    </p>
+                    <!-- <p class="text-white rubik-regular mb-0 font10" *ngIf="data.data.team2_name">
+                    {{data.data.team2_name}} @ {{data.oppTeamName}}
+                </p> -->
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 my-2">
+                    <p class="text-grey rubik-regular mb-0 text-right font10">
+                        {{data.data.date | date: 'shortTime'}}
+                    </p>
+                </div>
+                <form class="brawls-slip-form align-items-left w-100 form-row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div class="custom-form-group">
+                            <label for="wager" class="custom-label font12 align-items-left mb-0">Wager</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend m-0">
+                                    <span class="input-group-text custom-input-text">$</span>
+                                </div>
+                                <input type="text" (keypress)="numberOnly($event)" (keyup)="wagerLogic($event,i)"
+                                    class="form-control custom-form-control" id="wager">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div class="custom-form-group">
+                            <label for="towin" class="custom-label font12 align-items-left mb-0">To Win</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend m-0">
+                                    <span class="input-group-text custom-input-text">$
+                                        {{toWinList[i]?.winAmount}}</span>
+                                </div>
+                                <input [readOnly]="true" type="text" class="form-control custom-form-control"
+                                    id="towin">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="data.key === 'player'">
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10 pl-0">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md- 8 col-sm-8 col-8 p-0 text-white">
+                    <!-- {{ data | json}} -->
+                    <p class="text-white text-left rubik-regular mb-0 font16">
+                        {{data.data.player_name}} , 
+                        <span>{{data.point}}</span>
+
+                    </p>
+                    <span class="text-grey rubik-regular text-uppercase font12" *ngIf="data.dataKey">
+                        {{ data.dataKey }}
+                    </span>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-4 col-sm-4 col-4">
+                    <!-- <p class="text-white rubik-medium mb-0 text-right">
+                        <span>
+                            <span>{{data.value}}</span>
+                        </span>
+                    </p> -->
+                    <div class="under-over-selection d-flex">
+                        <div>
+                            <input type="radio" id="over{{i}}" name="a{{i}}" [checked]="true" (change)="changeSelection('over',i,data.match_Id)">
+                            <label class="selection-label-over text-light align-self-center mb-0 w-100" for="over{{i}}">
+                                Over
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="under{{i}}" name="a{{i}}" (change)="changeSelection('under',i,data.match_Id)">
+                            <label class="selection-label-under text-light align-self-center mb-0 w-100" for="under{{i}}">
+                                Under
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 my-2 p-0">
+                    <!-- <p class="text-white rubik-regular mb-0 font10" *ngIf="data.data.team_name">
+                        {{data.data.team_name}} @ {{data.oppTeamName}}
+                    </p> -->
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 my-2">
+                    <p class="text-grey rubik-regular mb-0 text-right font10">
+                        {{data.data.date | date: 'shortTime'}}
+                    </p>
+                </div>
+                <form class="brawls-slip-form align-items-left w-100 form-row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div class="custom-form-group">
+                            <label for="wager" class="custom-label font12 align-items-left mb-0">Wager</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend m-0">
+                                    <span class="input-group-text custom-input-text">$</span>
+                                </div>
+                                <input type="text" (keypress)="numberOnly($event)" (keyup)="wagerLogic($event,i)"
+                                    class="form-control custom-form-control" id="wager">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 py-3">
+                        <div class="custom-form-group">
+                            <label for="towin" class="custom-label font12 align-items-left mb-0">To Win</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend m-0">
+                                    <span class="input-group-text custom-input-text">$
+                                        {{toWinList[i]?.winAmount}}</span>
+                                </div>
+                                <input [readOnly]="true" type="text" class="form-control custom-form-control"
+                                    id="towin">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-container>
+</div>

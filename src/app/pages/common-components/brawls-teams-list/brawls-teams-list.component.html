@@ -1,0 +1,131 @@
+<form class="teams-selection-form" [formGroup]="teamSelectionForm">
+    <ng-container *ngFor="let item of showGameData.details.teams;let i = index">
+        <div class="brawls-teams-main p-3 mb-4">
+            <div class="row justify-content-center" *ngFor="let data of item.match;let j = index; let first = first">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 align-self-center mb-md-2">
+                    <div class="teams-logo-name d-flex">
+                        <div class="team-logo">
+                            <img src={{data?.image_url}} class="img-fluid team-logo-img">
+                        </div>
+                        <p
+                            class="rubik-regular align-self-center mb-0 ml-3 text-white team-name-{{j}} team-name font18">
+                            {{data?.team_name}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div [ngClass]="{'row':true, 'mb-3':(first == true), 'mb-0':(first == false)}">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pr-md-2">
+                            <div class="teams-selection">
+                                <input type="checkbox"
+                                    [checked]="newDataCollection.details.teams[i].match[j].checkedRunSpread"
+                                    name="runspread{{j}}{{i}}" id="runspread{{j}}{{i}}" value=""
+                                    (change)="onChangeRunspread($event, data , i , j, 'runspread', 'checkedRunSpread')">
+                                <label class="teams-label align-self-center mb-0 w-100" for="runspread{{j}}{{i}}">
+                                    <ng-container>
+                                        <div *ngFor="let teamScore of data?.list;let k = index">
+                                            <p class="rubik-medium mb-0 font16" *ngIf="teamScore.key == 'runspread'">
+                                                {{ getNUmberData(teamScore.point) }}</p>
+                                            <p class="rubik-medium mb-0 font16" *ngIf="teamScore.key == 'runspread'">
+                                                {{ getNUmberData(teamScore.value) }}</p>
+                                        </div>
+                                    </ng-container>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pr-md-2 pl-md-0">
+                            <div class="teams-selection">
+                                <input type="checkbox"
+                                    [checked]="newDataCollection.details.teams[i].match[j].checkedTotal"
+                                    name="total{{j}}{{i}}" id="total-{{j}}{{i}}" value="total"
+                                    (change)="onChangeRunspread($event, data , i , j, 'total' , 'checkedTotal')">
+                                <label class="teams-label align-self-center mb-0 w-100" for="total-{{j}}{{i}}">
+                                    <ng-container>
+                                        <div *ngFor="let teamScore of data?.list;let k = index">
+                                            <p class="rubik-medium mb-0 font16" *ngIf="teamScore.key == 'total'">
+                                                {{ getNUmberData(teamScore.point) }}</p>
+                                            <p class="rubik-medium mb-0 font16" *ngIf="teamScore.key == 'total'">
+                                                {{ getNUmberData(teamScore.value) }}</p>
+                                        </div>
+                                    </ng-container>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pl-md-0 align-self-center">
+                            <div class="teams-selection">
+                                <input type="checkbox"
+                                    [checked]="newDataCollection.details.teams[i].match[j].checkedMoneyline"
+                                    name="moneyline{{j}}{{i}}" id="money-line-{{j}}{{i}}" value=""
+                                    (change)="onChangeRunspread($event, data , i , j, 'moneyline', 'checkedMoneyline')">
+                                <label class="teams-label align-self-center mb-0 w-100 py-3"
+                                    for="money-line-{{j}}{{i}}">
+                                    <ng-container>
+                                        <div *ngFor="let teamScore of data?.list;let k = index">
+                                            <p class="rubik-medium mb-0 font16" *ngIf="teamScore.key == 'moneyline'">{{ getNUmberData(teamScore.point) }}</p>
+                                        </div>
+                                    </ng-container>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="date-icon-info">
+                <span class="rubik-regular contest-game-date font16">{{ transformDate(item?.date) }}</span>
+            </div>
+            <!-- <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 align-self-center mb-md-2">
+                    <div class="teams-logo-name d-flex">
+                        <div class="team-logo">
+                            <img src={{item.team2_data.teamImage}} class="img-fluid team-logo-img" height="60" width="60">
+                        </div>
+                        <p class="rubik-regular align-self-center mb-0 ml-3 text-white font18">
+                            {{item.team2_data.team2_name}}</p>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="row mt-md-3">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pr-md-2">
+                            <div class="teams-selection">
+                                <input type="checkbox" [checked]="newDataCollection[i].team2_data.checkedRunSpread"
+                                    formControlName="runspread" id="run-spread2-{{i}}" value=""
+                                    (change)="onChangeRunspread($event, item.team2_data , i , 'run-spread' , 'team2_data',item.team1_data.team1_name, 'checkedRunSpread', 1)">
+                                <label class="teams-label align-self-center mb-0 w-100" for="run-spread2-{{i}}">
+                                    <ng-container>
+                                        <p class="rubik-medium mb-0 font16">{{item.team2_data.run_spread_point}}</p>
+                                        <p class="rubik-medium mb-0 font16">{{item.team2_data.run_spread_value}}</p>
+                                    </ng-container>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pr-md-2 pl-md-0">
+                            <div class="teams-selection">
+                                <input type="checkbox" [checked]="newDataCollection[i].team2_data.checkedTotal"
+                                    formControlName="total" id="total2-{{i}}" value=""
+                                    (change)="onChangeRunspread($event, item.team2_data , i , 'total' , 'team2_data',item.team1_data.team1_name, 'checkedTotal', 2)">
+                                <label class="teams-label align-self-center mb-0 w-100" for="total2-{{i}}">
+                                    <ng-container>
+                                        <p class="rubik-medium mb-0 font16">{{item.team2_data.total_point}}</p>
+                                        <p class="rubik-medium mb-0 font16">{{item.team2_data.total_value}}</p>
+                                    </ng-container>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pl-md-0 align-self-center">
+                            <div class="teams-selection">
+                                <input type="checkbox" [checked]="newDataCollection[i].team2_data.checkedMoneyline"
+                                    formControlName="moneyline" id="money-line2-{{i}}" value=""
+                                    (change)="onChangeRunspread($event, item.team2_data , i , 'money-line' , 'team2_data',item.team1_data.team1_name, 'checkedMoneyline', 3)">
+                                <label class="teams-label align-self-center mb-0 w-100 py-3" for="money-line2-{{i}}">
+                                    <ng-container>
+                                        <p class="rubik-medium mb-0 font16">{{item.team2_data.money_line}}</p>
+                                    </ng-container>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </ng-container>
+    <app-no-data-found *ngIf="showGameData.details.teams.length == 0"></app-no-data-found>
+</form>

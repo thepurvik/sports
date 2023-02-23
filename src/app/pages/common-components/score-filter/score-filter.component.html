@@ -1,0 +1,7 @@
+<li [ngClass]="{'active':(activeLeague == leagueData.name)}" (click)="filterLeague(leagueData.name)">
+    <div class="score-filter-item-sec cursor-pointer d-flex mr-2">
+        <img [src]="leagueData.icon" class="img-fluid mx-auto d-block normalIcon scoreLeauge">
+        <img [src]="leagueData.hoverIcon" class="img-fluid mx-auto d-block hoverIcon scoreLeauge">
+        <p class="text-center rubik-regular mt-2 mb-1 leagueName ml-2">{{leagueData.name}}</p>
+    </div>
+</li>

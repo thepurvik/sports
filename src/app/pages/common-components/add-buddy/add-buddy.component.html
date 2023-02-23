@@ -1,0 +1,58 @@
+<div class="modal-body px-md-5 px-sm-3 px-3 py-3">
+    <img src="assets/images/cross-click.svg" class="img-fluid close-leaderboard-modal cursor-pointer" (click)="modal.dismiss('Cross click')">
+    <div class="userImage text-center">
+        <img [src]="playerData.image" onError="this.src='assets/images/user.svg'" class="img-fluid imagebuddy">
+        <p class="mb-1 rubik-regular text-white font24">{{playerData.name}}</p>
+        <p class="text-theme-yellow rubik-regular font20" *ngIf="playerData?.id">#{{transform(playerData.id)}}</p>
+    </div>
+    <!-- <div class="text-center">
+        <img [src]="data" class="img-fluid mr-2">
+        <img src="assets/images/belts1.svg" class="img-fluid mr-2">
+        <img src="assets/images/belts2.svg" class="img-fluid mr-2">
+        <img src="assets/images/belts3.svg" class="img-fluid">
+    </div> -->
+    <ng-container>
+        <div class="row justify-content-center mt-4  mb-3 m-0">
+            <div class="col-xl-4 col-lg-4 col-md-4 colsm-12 col-12 border-custom pl-0 pr-0 mb-sm-2 mb-2 mb-md-0">
+                <div class="amount py-2 text-center">
+                    <p class="mb-1 rubik-bold text-white" *ngIf="playerData.buddy_buck != null;else blankData">{{playerData.buddy_buck | number:'1.0-0'}}</p>
+                    <p class="mb-1 rubik-regular text-white font13">Buddy Bucks</p>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 colsm-12 col-12 border-custom pl-0 pr-0 mb-sm-2 mb-2 mb-md-0">
+                <div class="amount py-2 text-center">
+                    <p class="mb-1 rubik-bold text-white" *ngIf="playerData.total != null;else blankData">{{playerData.total}}</p>
+                    <p class="mb-1 rubik-regular text-white font12">Brawls Completed</p>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 colsm-12 col-12 border-custom pl-0 pr-0 mb-sm-2 mb-2 mb-md-0">
+                <div class="amount py-2 text-center">
+                    <p class="mb-1 rubik-bold text-white" *ngIf="playerData.belts_won != null;else blankData">{{playerData.belts_won | number:'1.0-0' }}</p>
+                    <p class="mb-1 rubik-regular text-white font13">Badges Won</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4  mb-3 m-0">
+            <div class="col-xl-4 col-lg-4 col-md-4 colsm-12 col-12 border-custom pl-0 pr-0 mb-sm-2 mb-2 mb-md-0">
+                <div class="amount py-2 text-center">
+                    <p class="mb-1 rubik-bold text-white" *ngIf="playerData.total_win != null;else blankData">{{playerData.total_win | number:'1.0-0'}}</p>
+                    <p class="mb-1 rubik-regular text-white font13">Belts Won</p>
+                </div>
+            </div>
+        </div>
+        <ng-template #blankData>
+            <p class="mb-1 rubik-bold text-white">-</p>
+        </ng-template>
+    </ng-container>
+    <!-- <button class="buddy-leaderboard-btn rubik-medium d-block w-100 mb-3 text-white" type="button">
+        LIKE
+    </button> -->
+    <div *ngIf="playerData?.buddy_id != userId">
+        <button class="buddy-leaderboard-btn rubik-medium d-block w-100 text-white" (click)="addFriend(playerData.buddy_id);" *ngIf="playerData.buddyExist == 0" type="button">
+            ADD BUDDY
+        </button>
+        <button class="buddy-leaderboard-btn rubik-medium d-block w-100 text-white" (click)="removeFriend(playerData.buddy_id);" *ngIf="playerData.buddyExist == 1" type="button">
+            REMOVE BUDDY
+        </button>
+    </div>
+</div>

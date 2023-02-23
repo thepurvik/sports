@@ -1,0 +1,29 @@
+<div class="bb-confirmation-modal p-0" *ngIf="advList">
+  <div class="bb-confirmation-modal-inner">
+    <button *ngIf="closeButton" type="button" class="close countdown" aria-label="Close" (click)="close('skipAd')">
+      <!-- <span aria-hidden="true">&times;</span> -->
+      <div class="text-countdown" *ngIf="showMe">
+        Skip Ad <img src="assets/images/close-icon.svg" class="img-fluid">
+      </div>
+      <div class="text-countdown" *ngIf="!showMe">
+        Close
+      </div>
+    </button>
+    <div class="modal-body border-0 p-0">
+      <ng-container
+        *ngIf="advList && advType == 'image/jpeg' || advType == 'image/jpg' || advType == 'image/png' || advType == 'image/PNG' || advType == 'image/svg' || advType == ''">
+        <img [src]="advList" class="img-fluid" width="100%" height="300px" (timeupdate)="onTimeUpdate($event,'image')">
+      </ng-container>
+      <ng-container *ngIf="advList && advType == 'video/mp4' || advType == 'video/mov'">
+        <video width="100%" height="300px" autoplay (timeupdate)="onTimeUpdate($event,'video')" (ended)="videoEnd()">
+          <source [src]="advList" type="video/mp4">
+        </video>
+      </ng-container>
+      <ng-container *ngIf="advList && advType">
+        <button class="countdown" *ngIf="!closeButton">
+          <p class="text-countdown down">Skip In : {{display}} Sec</p>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>

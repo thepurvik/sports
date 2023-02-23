@@ -1,0 +1,243 @@
+.create-brawls-section {
+    background: #1C1B21;
+    border: 1px solid #26262E;
+    box-sizing: border-box;
+    border-radius: 4px 4px 0px 0px;
+}
+
+::ng-deep.create-brawls-wizard .nav-tabs {
+    background: #26262E;
+    box-shadow: none;
+    border-bottom: none;
+}
+
+::ng-deep.create-brawls-wizard li.nav-item {
+    padding: 0;
+    color: #FFFFFF !important;
+    width: 25%;
+    text-align: center;
+    box-shadow: inset -2px 0px 0px #3d3d4a;
+}
+
+::ng-deep.create-brawls-wizard li.nav-item:last-child {
+    box-shadow: none !important;
+}
+
+::ng-deep.create-brawls-wizard li.nav-item.active {
+    background: #BA973F;
+    font-size: 16px;
+    line-height: 20px;
+    box-shadow: none !important;
+}
+
+::ng-deep.invite li.nav-item.active {
+    width: 100%;
+}
+
+::ng-deep.create-brawls-wizard li.nav-item.active>a {
+    font-weight: bold;
+    color: #181A1E !important;
+}
+
+::ng-deep.create-brawls-wizard .nav-tabs .nav-link:hover {
+    border-color: unset !important;
+}
+
+::ng-deep.create-brawls-wizard .nav-tabs .nav-link {
+    border: none;
+    border-radius: unset !important;
+}
+
+::ng-deep.create-brawls-wizard a {
+    color: #FFFFFF !important;
+    padding: 10px 110px;
+}
+
+::ng-deep .invite .nav .nav-tabs .step-anchor {
+    width: 100%;
+}
+
+::ng-deep .ng-wizard-btn-group .ng-wizard-btn-prev {
+    background: #26262E;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 2px !important;
+    font-size: 16px;
+}
+
+::ng-deep .ng-wizard-btn-group .ng-wizard-btn-prev.disabled,
+::ng-deep .ng-wizard-btn-group .ng-wizard-btn-next.disabled {
+    background: #26262E;
+    padding: 10px 40px;
+    border: none;
+    display: none;
+}
+
+::ng-deep .nav-item .done {
+    pointer-events: none !important;
+}
+
+::ng-deep .ng-wizard-btn-group .ng-wizard-btn-next {
+    background: #3D3D4A;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 2px !important;
+    font-size: 16px;
+}
+
+::ng-deep .ng-wizard-btn-group .btn-secondary:focus,
+.ng-wizard-btn-group .btn-secondary:not(:disabled):not(.disabled):active {
+    box-shadow: none !important;
+    background-color: #BA973F !important;
+    background: #BA973F;
+    border-color: unset;
+}
+
+.sport-check-box {
+    position: relative;
+    width: 125px;
+    height: 125px;
+    margin: 10px;
+}
+
+.sport-check-box .sport-check-label {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 25px 35px;
+    cursor: pointer;
+    transition: all 0.4s;
+    text-align: center;
+    color: #26262E;
+    background: #2C2C2E;
+    border: 1px solid #3A3A3C;
+    box-sizing: border-box;
+    border-radius: 4px 4px 0px 0px;
+}
+
+.sport-check-box input[type="checkbox"] {
+    display: none;
+}
+
+.sport-check-box input[type=checkbox]:checked~* {
+    font-weight: bold;
+    border: 1px solid #BA973F;
+}
+
+.form-control.cutom-input {
+    border: 1px solid #3D3D4A !important;
+    background-color: #32323C !important;
+    border-radius: 2px;
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.custom-radio-choose-sport input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+
+img.sport-image {
+    -webkit-filter: invert(63%) sepia(0%) saturate(64%) hue-rotate(70deg) brightness(93%) contrast(69%);
+    filter: invert(63%) sepia(0%) saturate(64%) hue-rotate(70deg) brightness(93%) contrast(69%);
+    width: 40px;
+}
+
+.custom-radio-choose-sport label {
+    display: inline-block;
+    padding: 39px 56px;
+    font-family: 'Rubik-Regular';
+    color: #FFFFFF;
+    font-size: 12px;
+    border-radius: 4px;
+    background: #2C2C2E;
+    border: 2px solid #3A3A3C;
+    box-sizing: border-box;
+    margin: 10px;
+}
+
+.custom-radio-choose-sport label:hover {
+    border: 2px solid #BA973F;
+    cursor: pointer;
+}
+
+.custom-radio-choose-sport label:hover img.sport-image {
+    -webkit-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
+}
+
+.custom-radio-choose-sport input[type="radio"]:focus+label {
+    border: 2px dashed #444;
+}
+
+.custom-radio-choose-sport input[type="radio"]:checked+label {
+    border: 2px solid #BA973F;
+}
+
+.custom-radio-choose-sport input[type="radio"]:checked+label img.sport-image {
+    -webkit-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
+}
+
+.new-invite-friends {
+    position: relative;
+}
+
+.new-invite-friends ul {
+    background: #2C2C2E;
+    border: 1px solid #3A3A3C;
+    box-sizing: border-box;
+    border-radius: 2px;
+    /* position: absolute; */
+}
+
+.new-invite-friends ul li {
+    padding: 10px 20px;
+    color: #FFFFFF;
+    border-bottom: 1px solid #3A3A3C;
+}
+
+.new-invite-friends ul li:hover {
+    background: #3A3A3C;
+    border-bottom: 1px solid #3A3A3C;
+}
+
+img.search-invite-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+
+.btn-invite {
+    width: 87px;
+    height: 28px;
+    background: #BA973F;
+    border: none;
+    border-radius: 2px;
+    color: #030404;
+    font-size: 14px;
+    font-family: 'Rubik-Bold';
+}
+
+.searchCloseIcon::before {
+    position: absolute;
+    top: 14px;
+    right: 10px;
+    cursor: pointer;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+
+/* @media screen and (max-width:480px) {
+     ::ng-deep.create-brawls-wizard li.nav-item {
+        width: 100% !important;
+    }
+} */

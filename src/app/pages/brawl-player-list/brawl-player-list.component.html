@@ -1,0 +1,57 @@
+<form class="player-selection-form" [formGroup]="playerSelectionForm">
+    <div class="brawls-teams-main p-3 mb-4" *ngFor="let players of playersData;let i = index">
+        <div class="row justify-content-center" *ngFor="let player of players.match;let j = index">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 align-self-center mb-md-2">
+                <div class="player-logo-name d-flex">
+                    <div class="team-logo">
+                        <img src="{{ player?.image_url }}" class="img-fluid player-logo-img">
+                    </div>
+                    <p class="rubik-regular align-self-center mb-0 ml-3 text-white player-name font18">{{ player?.player_name }}</p>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pr-md-2">
+                        <div class="teams-selection">
+                            <div *ngFor="let playerScore of player?.list;let k = index">
+                                <ng-container *ngIf="columnOne.includes(playerScore.key+leagueName)">
+                                    <input type="checkbox" name="runspread{{i}}" id="runspread{{i}}" [checked]="newPlayerData[i].firstColumn" (change)="onChangeEvent($event, player , i, 'firstColumn', playerScore.key)">
+                                    <label class="teams-label align-self-center mb-0 w-100" for="runspread{{i}}">
+                                        <p class="rubik-medium mb-0 font16" [ngClass]="playerScore.key == 'Score' ? 'lineHeight' : '' ">{{ playerScore?.point }}</p>
+                                    </label>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pr-md-2">
+                        <div class="teams-selection">
+                            <div *ngFor="let playerScore of player?.list;let k = index">
+                                <ng-container *ngIf="columnTwo.includes(playerScore.key+leagueName)">
+                                    <input type="checkbox" name="total{{i}}" id="total{{i}}" [checked]="newPlayerData[i].secondColumn" (change)="onChangeEvent($event, player , i, 'secondColumn', playerScore.key)">
+                                    <label class="teams-label align-self-center mb-0 w-100" for="total{{i}}">
+                                        <p class="rubik-medium mb-0 font16">{{ playerScore?.point }}</p>
+                                    </label>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 pr-md-2">
+                        <div class="teams-selection">
+                            <div *ngFor="let playerScore of player?.list;let k = index">
+                                <ng-container *ngIf="columnThree.includes(playerScore.key+leagueName)">
+                                    <input type="checkbox" name="moneyline{{i}}" id="moneyline{{i}}" [checked]="newPlayerData[i].thirdColumn" (change)="onChangeEvent($event, player , i, 'thirdColumn', playerScore.key)">
+                                    <label class="teams-label align-self-center mb-0 w-100" for="moneyline{{i}}">
+                                        <p class="rubik-medium mb-0 font16">{{ playerScore?.point }}</p>
+                                    </label>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="date-icon-info">
+            <span class="rubik-regular contest-game-date font16">{{ transformDate(players?.date) }}</span>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,7 @@
+<li [ngClass]="{'league-filter-item pt-3 pb-2':true, 'active':(activeLeague == leagueData.name)}" (click)="filterLeague(leagueData.name)">
+    <div class="league-filter-item-sec position-relative">
+        <img [src]="leagueData.icon" class="img-fluid mx-auto d-block normalIcon leagueIconImg">
+        <img [src]="leagueData.hoverIcon" class="img-fluid mx-auto d-block hoverIcon leagueIconImg">
+    </div>
+    <p class="text-white text-center rubik-regular mt-2 mb-1 leagueName">{{leagueData.name}}</p>
+</li>

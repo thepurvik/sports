@@ -1,0 +1,607 @@
+<app-header></app-header>
+<div id="wrapper" class="wrapper py-4">
+    <div class="container">
+        <app-advertise-slider></app-advertise-slider>
+        <app-common-title [title]="title_"></app-common-title>
+        <div class="row mt-3">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills bg-black-highlight" orientation="vertical">
+                    <li class="p-0 nav-item">
+                        <a class="nav-link nav-link-profile">
+                            <div class="media position-relative">
+                                <img [src]="imageProfile" class="img-fluid profile-account-icon align-self-center">
+                                <label class="change-avatar-label cursor-pointer" for="user-profile-image">
+                  <img src="assets/images/avatar-change-camera.svg" class="img-fluid change-avatar-icon">
+                </label>
+                                <input type="file" id="user-profile-image" class="d-none" name="mediaFile" value="mediaFile" (change)="uploadToServer($event)">
+                                <div class="media-body align-self-center">
+                                    <h5 class="mt-0 mb-0 align-self-center rubik-medium text-white">
+                                        {{ personalData?.name }}
+                                    </h5>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="p-0 buddy-bucks-badges" ngbNavItem="buddyBucks">
+                        <a ngbNavLink (click)="scroll()">
+                            <p class="mt-0 mb-0 rubik-light font16">
+                                Buddy Bucks
+                            </p>
+                            <p class="mt-0 mb-0 rubik-bold font22">
+                                {{ personalData?.buddyBucks | number:'1.0-0' }}
+                            </p>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="row m-0">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-title">
+                                    <h6 class="m-0 rubik-bold font16 text-white">{{ status.PURCHASE_BUDDY_BUCKS.name }}
+                                    </h6>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-content">
+                                    <form>
+                                        <div class="radio-bucks-ui custom-control custom-radio" *ngFor="let bucks of buddyBucks; let i = index;">
+                                            <input (change)="selectbucksEntry(i)" class="custom-control-input" type="radio" name="radioBucks" id="radioBucks{{i}}" [value]="i" [checked]="i==0">
+                                            <label class="custom-control-label font16 rubik-regular pl-3" for="radioBucks{{i}}">
+                        ${{bucks.value}} for ${{bucks.buddybucks | number:'1.0-0'}} Buddy Bucks
+                      </label>
+                                        </div>
+                                        <div class="mt-4 text-center">
+                                            <button type="button" (click)="buddyBucksBuy()" class="btn-theme-yellow mx-400 w-100 mt-3">
+                        Purchase
+                      </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li class="p-0 buddy-bucks-badges" ngbNavItem="badges">
+                        <a ngbNavLink (click)="getBadgesList()">
+                            <p class="mt-0 mb-2 rubik-light font16">
+                                Badges
+                            </p>
+                            <div class="badges-list">
+                                <img src="assets/images/Eagle.png" class="img-fluid mr-2">
+                                <img src="assets/images/Boxing+Gloves.png" class="img-fluid mr-2">
+                                <img src="assets/images/Finger.png" class="img-fluid mr-2">
+                                <img src="assets/images/Flame.png" class="img-fluid mr-2">
+                            </div>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <form>
+                                <div class="row m-0">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-title title-text">
+                                        <h6 class="m-0 rubik-bold font16 text-white"> {{ status.PURCHASE_BADGES.name }}
+                                        </h6>
+                                        <h6 class="m-0 rubik-bold font16 text-warning text-right">Credit : {{creditAmount}}</h6>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-content">
+                                        <div class="badges-title-ui custom-control custom-radio mb-4">
+                                            <!-- <p class="mt-0 mb-0 rubik-regular font16">{{ status.FREE_BADGES.name }}</p> -->
+                                            <p class="mt-0 mb-0 rubik-regular font16">Earned Badges</p>
+                                        </div>
+                                        <div class="row" [class.center]="badgeInfo?.length == 0">
+                                            <ng-container *ngIf="badgeInfo?.length > 0; else nobadges">
+                                                <div *ngFor="let badge of badgeInfo; let i = index;" class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-12 radio-bucks-ui-new custom-control custom-radio px-3 mb-4 d-flex align-items-stretch">
+                                                    <input class="custom-control-input d-none" name="radioBadgesf" id="radioBadgesf{{badge.badgeId}}{{i}}" value="$1.99">
+                                                    <label class="custom-control-label badge-design w-100 text-center p-3" for="radioBadgesf{{badge.badgeId}}{{i}}">
+                            <img [src]="badge.image" onError="this.src='/assets/images/no-iamge-placeholder.svg'"
+                              class="img-fluid">
+                            <p class="mt-3 mb-0" class="selectBadgesFree">
+                              {{badge.name}}
+                            </p>
+                          </label>
+                                                </div>
+                                            </ng-container>
+
+
+                                        </div>
+                                        <ng-template #nobadges>
+                                            <app-no-data-found class="nodatafd"></app-no-data-found>
+                                        </ng-template>
+                                        <div class="badges-title-ui custom-control custom-radio mb-4">
+                                            <!-- <p class="mt-0 mb-0 rubik-regular font16">{{ status.OTHER_BADGES.name }}</p> -->
+                                            <p class="mt-0 mb-0 rubik-regular font16">Badges to Purchase</p>
+                                        </div>
+                                        <div class="row" [class.center]="purchaseBadges?.length == 0">
+                                            <ng-container *ngIf="purchaseBadges?.length > 0; else nobadgespurchase">
+                                                <div *ngFor="let pbadge of purchaseBadges; let i = index;" class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-12 radio-bucks-ui-new custom-control custom-radio px-3 mb-4 d-flex align-items-stretch">
+                                                    <input [(ngModel)]="selectBadges" class="custom-control-input d-none" type="radio" name="radioBadges" id="radioBadges{{pbadge._id}}{{i}}" [value]="pbadge">
+                                                    <label class="custom-control-label badge-design w-100 text-center p-3" for="radioBadges{{pbadge._id}}{{i}}">
+                            <img [src]="pbadge.image" onError="this.src='assets/images/no-iamge-placeholder.jpg'"
+                              class="img-fluid">
+                            <p class="mt-3 mb-0">
+                              {{pbadge.name}}
+                            </p>
+                          </label>
+                                                </div>
+                                            </ng-container>
+
+                                        </div>
+                                        <ng-template #nobadgespurchase>
+                                            <app-no-data-found class="nodatafd"></app-no-data-found>
+                                        </ng-template>
+                                        <div class="mt-4 text-center" *ngIf="purchaseBadges?.length > 0">
+                                            <button type="submit" (click)="beltsBuy()" *ngIf="creditAmount == 0;else creditbt" class="btn-theme-yellow mx-400 w-100 mt-3">
+                        PURCHASE $1.99
+                      </button>
+                                            <ng-template #creditbt>
+                                                <button type="button" class="btn-theme-yellow mx-400 w-100 mt-3" (click)="creditbadges()">
+                          Credit
+                        </button>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </ng-template>
+                    </li>
+                    <li class="p-0 buddy-bucks-badges beltsDetail" ngbNavItem="belts">
+                        <a ngbNavLink class="disabled">
+                            <p class="mt-0 mb-2 rubik-light font16">
+                                Belts
+                            </p>
+                            <div class="d-flex pt-2">
+                                <img src="assets/images/newBelt.svg" class="img-fluid">
+                                <p class="beltCount"> {{ personalData?.belts | number:'1.0-0'}}</p>
+                            </div>
+                            <!-- <div class="belts-list" *ngFor="let data of personalData?.belts">
+                                <img [src]="data" class="img-fluid mr-2">
+                            </div> -->
+                        </a>
+                        <!-- <ng-template ngbNavContent>
+                            <form>
+                                <div class="row m-0">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-title">
+                                        <h6 class="m-0 rubik-bold font16 text-white">{{ status.PURCHASE_BELTS.name }}
+                                        </h6>
+                                        <h6 class="m-0 rubik-bold font16 text-white">Belt Count</h6>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-content">
+                                        <div class="badges-title-ui custom-control custom-radio mb-4">
+                                            <p class="mt-0 mb-0 rubik-regular font16">{{ status.FREE_BELTS.name }}</p>
+                                        </div>
+                                        <div class="row">
+                                            <ng-container *ngFor="let belt of personalData?.belts; let i = index;">
+                                                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-12 radio-bucks-ui-new custom-control custom-radio px-3 mb-4">
+                                                    <input class="custom-control-input d-none" type="radio" name="radioBelts" id="radioBelts{{i}}" value="$1.99">
+                                                    <label class="custom-control-label badge-design w-100 text-center p-3" for="radioBelts{{i}}">
+                                                        <img [src]="belt" class="img-fluid">
+                                                        <p class="mt-3 mb-0">
+                                                        {{belt.name}}
+                                                        </p>
+                                                    </label>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                        <div class="badges-title-ui custom-control custom-radio mb-4">
+                                            <p class="mt-0 mb-0 rubik-regular font16">{{ status.OTHER_BELTS.name }}</p>
+                                        </div>
+                                        <div class="row">
+                                            <ng-container *ngFor="let belt of beltsInfo; let ik = index;">
+                                                <div
+                                                    class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-12 radio-bucks-ui-new custom-control custom-radio px-3 mb-4">
+                                                    <input class="custom-control-input d-none" type="radio"
+                                                        name="radioBelts1" id="radioBelts1{{belt.id}}{{ik}}{{ik}}"
+                                                        value="$1.99">
+                                                    <label
+                                                        class="custom-control-label badge-design w-100 text-center p-3"
+                                                        for="radioBelts1{{belt.id}}{{ik}}{{ik}}">
+                                                        <img [src]="belt.icon" class="img-fluid">
+                                                        <p class="mt-3 mb-0">
+                                                            {{belt.name}}
+                                                        </p>
+                                                    </label>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                        <div class="mt-4 text-center">
+                                            <button type="submit" class="btn-theme-yellow mx-400 w-100 mt-3">
+                                                PURCHASE $1.99
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </ng-template> -->
+                    </li>
+                    <li class="p-0" ngbNavItem="personalData">
+                        <a ngbNavLink (click)="scroll(); getUserDataApi('Init')">
+                            <img src="assets/images/personalData.svg" class="img-fluid account-icon-sidebar personalData mr-3"> Personal Data
+                        </a>
+                        <ng-template ngbNavContent>
+                            <form>
+                                <div class="row m-0">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-title">
+                                        <h6 class="m-0 rubik-bold font16 text-white">
+                                            <img src="assets/images/personalData.svg" class="img-fluid account-icon-sidebar personalData new-head-ico mr-3">{{ status.PERSONAL_DATA.name }}
+                                        </h6>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-content">
+                                        <form [formGroup]="form" (ngSubmit)="personalInfoSubmit()">
+                                            <h2 class="mt-4 mb-4 rubik-medium text-white text-center">
+                                                {{ personalData?.name }}
+                                            </h2>
+                                            <div class="row mb-4">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-data">
+                                                    <label for="user-email" class="profile-sec-label font16 text-light-black rubik-medium">Email</label>
+                                                    <input type="text" id="user-email" placeholder="Email Address" name="email" autocomplete="off" formControlName="email" class="form-control BB-custom-control BB-custom-control-after-auth">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-data">
+                                                    <label for="user-full-name" class="profile-sec-label font16 text-light-black rubik-medium">Full
+                            Name</label>
+                                                    <input type="text" id="user-full-name" placeholder="Full Name" name="full-name" autocomplete="off" formControlName="name" class="form-control BB-custom-control BB-custom-control-after-auth">
+                                                    <div *ngIf="submitted && f['name'].errors" class="text-danger font12">
+                                                        <div *ngIf="f['name'].errors['required']"> {{ status.FULL_NAME_REQUIRED.name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-data">
+                                                    <label class="profile-sec-label font16 text-light-black rubik-medium">
+                            Gender
+                          </label>
+                                                    <div class="form-data-gender">
+                                                        <div class="row">
+                                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-data first">
+                                                                <div class="radio-bucks-ui radio-bucks-gender custom-control custom-radio">
+                                                                    <input class="custom-control-input" type="radio" name="gender" id="radioGender1" formControlName="gender" value="m" checked>
+                                                                    <label class="custom-control-label font16 rubik-medium pl-3" for="radioGender1">
+                                    Male
+                                  </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-data middle">
+                                                                <div class="radio-bucks-ui radio-bucks-gender custom-control custom-radio">
+                                                                    <input class="custom-control-input" type="radio" name="gender" id="radioGender2" formControlName="gender" value="f">
+                                                                    <label class="custom-control-label font16 rubik-medium pl-3" for="radioGender2">
+                                    Female
+                                  </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-data last">
+                                                                <div class="radio-bucks-ui radio-bucks-gender custom-control custom-radio">
+                                                                    <input class="custom-control-input" type="radio" name="gender" id="radioGender3" formControlName="gender" value="o">
+                                                                    <label class="custom-control-label font16 rubik-medium pl-3" for="radioGender3">
+                                    Unspecified
+                                  </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="submitted && f['gender'].errors" class="text-danger font12">
+                                                        <div *ngIf="f['gender'].errors['required']">{{ status.GENDER_REQUIRED.name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 form-data mb-md-0 mb-sm-4 mb-4">
+                                                    <label for="user-phone" class="profile-sec-label font16 text-light-black rubik-medium">Phone
+                            Number</label>
+                                                    <input type="text" id="user-phone" placeholder="Phone Number" name="email" autocomplete="off" formControlName="mobile" class="form-control BB-custom-control BB-custom-control-after-auth">
+                                                    <div *ngIf="submitted && f['mobile'].errors" class="text-danger font12">
+                                                        <div *ngIf="f['mobile'].errors['required']">{{ status.MOBILE_NUMBER_REQUIRED.name }}
+                                                        </div>
+                                                        <div *ngIf="f['mobile'].errors['pattern']">{{ status.MOBILE_NUMBER_LEAST_NUMBER.name }}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 form-data">
+                                                    <label class="profile-sec-label font16 text-light-black rubik-medium">Date
+                            Of Birth</label>
+                                                    <div class="form-inline custom-datepicker">
+                                                        <div class="form-group w-100">
+                                                            <div class="input-group w-100">
+                                                                <input class="form-control BB-custom-control BB-custom-control-after-auth dob-input" (click)="d.toggle()" placeholder="Date of Birth" formControlName="birthday" name="dob" ngbDatepicker #d="ngbDatepicker" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="newMaxDate"
+                                                                    [readonly]="true">
+
+                                                                <div class="input-group-append">
+                                                                    <button class="btn btn-outline-secondary custom-dp" (click)="d.toggle()" type="button">
+                                    <img src="assets/images/dob-calendar.svg" class="img-fluid">
+                                  </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="submitted && f['birthday'].errors" class="text-danger font12">
+                                                        {{ status.BIRTH_DATE_REQUIRED.name }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-4 text-center">
+                                                <button type="submit" class="btn-theme-yellow mx-400 w-100 mt-3">
+                          save changes
+                        </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </form>
+                        </ng-template>
+                    </li>
+                    <li class="p-0" ngbNavItem="brawlsHistory">
+                        <a ngbNavLink (click)="scroll(); getBrawlHistory()">
+                            <img src="assets/images/brawlsHistory.svg" class="img-fluid account-icon-sidebar mr-3"> Brawls History
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="row m-0">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-title">
+                                    <h6 class="m-0 rubik-bold font16 text-white">
+                                        <img src="assets/images/brawlsHistory.svg" class="img-fluid account-icon-sidebar personalData new-head-ico mr-3"> {{ status.BRAWLS_HISTORY.name }}
+                                    </h6>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-content">
+                                    <div class="row mb-4">
+                                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 form-data">
+                                            <select name="brawlsHistorySorting" class="form-control BB-custom-control BB-custom-control-after-auth-select" (change)="brawlHistoryDataChange($event, 'history')">
+                        <option *ngFor="let filter of listFilterHistory; let i = index;" [value]="filter.value">
+                          {{filter.name}}</option>
+                      </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                                            <ng-container *ngIf="brawlHistoryData?.length > 0; else noHistoryFound">
+                                                <div class="row m-0 p-3 brawlsHistory-sec-sub mb-3" *ngFor="let brawlInfo of brawlHistoryData; let i = index;">
+                                                    <div class="col-xl-1 col-lg-1 col-md-2 col-sm-12 col-12 align-self-center text-center border-rank-right py-md-0 py-sm-2 py-2">
+                                                        <p class="text-white mt-0 mb-0 rubik-medium font16">
+                                                            {{brawlInfo.rank}}</p>
+                                                        <p class="text-white mt-0 mb-0 rubik-light font16">Rank</p>
+                                                    </div>
+                                                    <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12 px-md-4 px-sm-3 px-3 align-self-center py-md-0 py-sm-2 py-2 cursor-pointer" (click)="showDetailResult(brawlInfo.entryId)">
+                                                        <h5 class="text-white mt-0 mb-0 rubik-bold mb-2 text-md-left text-sm-center text-center">
+                                                            {{brawlInfo.title}}
+                                                        </h5>
+                                                        <p class="mt-0 mb-0 rubik-light text-light-black text-md-left text-sm-center text-center">
+                                                            {{transformDate(brawlInfo.date)}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 align-self-center text-md-right text-sm-center text-center py-md-0 py-sm-2 py-2">
+                                                        <p class="text-white mt-0 mb-0 rubik-medium font16">
+                                                            {{ brawlInfo.entryamount }} Buddy Bucks
+                                                        </p>
+                                                        <p class="text-white mt-0 mb-0 rubik-medium font16">
+                                                            {{brawlInfo.amount | number:'1.0-0'}} Winning Amount
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #noHistoryFound>
+                                                <app-no-data-found></app-no-data-found>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 text-center" *ngIf="historyfilter">
+                                        <ngb-pagination [collectionSize]="collectionSizeHistory" [(page)]="pageHistory" (pageChange)="getPremiumData2();" [maxSize]="10" [pageSize]="10" [boundaryLinks]="true">
+                                        </ngb-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li class="p-0" ngbNavItem="referFriend">
+                        <a ngbNavLink (click)="scroll()">
+                            <img src="assets/images/referFriend.svg" class="img-fluid account-icon-sidebar mr-3"> Refer Friend
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="row m-0">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-title">
+                                    <h6 class="m-0 rubik-bold font16 text-white">
+                                        <img src="assets/images/referFriend.svg" class="img-fluid account-icon-sidebar personalData new-head-ico mr-3"> {{ status.REFER_FRIEND.name }}
+                                    </h6>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-content">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <h2 class="mt-0 mb-4 rubik-medium text-white text-center">
+                                                {{ personalData?.name }}, Invite your friends
+                                            </h2>
+                                            <p class="mt-0 mb-0 rubik-regular text-light-black text-center mx-585">
+                                                Earn free Badge credits for each buddy who opens an account using your referral code.
+                                            </p>
+                                            <div class="text-center">
+                                                <img src="assets/images/referFriendTeams.svg" class="img-fluid my-3">
+                                                <p class="mt-0 mb-0 rubik-regular text-light-black text-center mx-585">
+                                                    Buddy Brawl’ Is The World’s First Fantasy Sports Survivor Game With Awesome Prizes Such As Once In A Lifetime Athlete Experiences, Cash Prizes, Exclusive Merchandise, And Much More.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-data mt-4">
+                                            <label class="profile-sec-label font16 text-light-black rubik-medium">
+                        My Referral Code
+                      </label>
+                                            <div class="form-inline custom-datepicker">
+                                                <div class="form-group w-100">
+                                                    <div class="input-group w-100">
+                                                        <input class="form-control BB-custom-control BB-custom-control-after-auth dob-input" id="referalCode" name="referalCode" value="{{referralLink}}" readonly>
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-outline-secondary custom-dp" type="button" (click)="copyRefralLink(referralLink)">
+                                <img src="assets/images/referal-code.svg" class="img-fluid">
+                              </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li class="p-0" ngbNavItem="transactionHistory">
+                        <a ngbNavLink (click)="scroll(); getTransactionHistory()">
+                            <img src="assets/images/transactionHistory.svg" class="img-fluid account-icon-sidebar mr-3"> Transaction History
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="row m-0">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-title">
+                                    <h6 class="m-0 rubik-bold font16 text-white">
+                                        <img src="assets/images/transactionHistory.svg" class="img-fluid account-icon-sidebar personalData new-head-ico mr-3"> {{ status.TRANSACTION_HISTORY.name }}
+                                    </h6>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-content">
+                                    <div class="row mb-4">
+                                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 form-data">
+                                            <select name="brawlsHistorySorting" class="form-control BB-custom-control BB-custom-control-after-auth-select" (change)="brawlHistoryDataChange($event, 'transaction')">
+                        <option *ngFor="let filter of listFilterTransaction; let i = index;" [value]="filter.value">
+                          {{filter.name}}</option>
+                      </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                                            <ng-container *ngIf="brawlTransactionData?.data?.length > 0; else noHistoryFound">
+                                                <div class="row m-0 py-3 brawlsHistory-sec-sub mb-3" *ngFor="let traInfo of brawlTransactionData.data; let i = index;">
+                                                    <div class="col-xl-9 col-lg-9 col-md-10 col-sm-12 col-12  px-3 align-self-center py-md-0 py-sm-2 py-2">
+                                                        <h5 class="text-white mt-0 mb-0 rubik-bold mb-2 text-md-left text-sm-center text-center">
+                                                            {{traInfo.description}}
+                                                        </h5>
+                                                        <p class="mt-0 mb-0 rubik-light text-light-black text-md-left text-sm-center text-center">
+                                                            {{transHistoryformDate(traInfo.createdat)}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 align-self-center text-md-right text-sm-center text-center py-md-0 py-sm-2 py-2">
+                                                        <label class="text-white mt-0 mb-0 rubik-medium font16 tra-status pending" *ngIf="traInfo.status == 0">
+                              Pending
+                            </label>
+                                                        <label class="text-white mt-0 mb-0 rubik-medium font16 tra-status success" *ngIf="traInfo.status == 1">
+                              Successful
+                            </label>
+                                                        <label class="text-white mt-0 mb-0 rubik-medium font16 tra-status failed" *ngIf="traInfo.status == 2">
+                              Failed
+                            </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4 text-center">
+                                                    <ngb-pagination [collectionSize]="collectionSizeTransaction" [(page)]="page" (pageChange)="getPremiumData();" [maxSize]="10" [pageSize]="20" [boundaryLinks]="true">
+                                                    </ngb-pagination>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #noHistoryFound>
+                                                <app-no-data-found></app-no-data-found>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li class="p-0" ngbNavItem="resetPassword" *ngIf="!socialUser">
+                        <a ngbNavLink (click)="scroll()">
+                            <img src="assets/images/resetPassword.svg" class="img-fluid account-icon-sidebar mr-3"> Reset Password
+                        </a>
+                        <ng-template ngbNavContent>
+                            <form>
+                                <div class="row m-0">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-title">
+                                        <h6 class="m-0 rubik-bold font16 text-white">
+                                            <img src="assets/images/resetPassword.svg" class="img-fluid account-icon-sidebar personalData new-head-ico mr-3"> {{ status.RESET_PWD.name }}
+                                        </h6>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 account-head-content">
+                                        <form [formGroup]="resetPassword" (ngSubmit)="resetPwdSubmit()">
+                                            <div class="row mb-4">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-data">
+                                                    <label for="user-current-pass" class="profile-sec-label font16 text-light-black rubik-medium text-capitalize">Your
+                            Current Password</label>
+                                                    <div class="input-group auth-pass-inputgroup">
+                                                        <input [type]="passwordCurr" formControlName="currentPwd" class="form-control BB-custom-control BB-custom-control-pass BB-custom-control-after-auth" id="user-current-pass" autocomplete="off" name="password">
+                                                        <button class="btn btn-light shadow-none pass-show" (click)="hideShowPassCurr(passwordCurr, 'current-password')" type="button" id="password-addonhide">
+                              <img src="assets/images/eye.svg" *ngIf="!showCurr">
+                              <img src="assets/images/eyecross.svg" *ngIf="showCurr">
+                            </button>
+                                                    </div>
+                                                    <div *ngIf="resetSubmitted && resetValidation['currentPwd'].errors" class="text-danger font12">
+                                                        <div *ngIf="resetValidation['currentPwd'].errors['required']">
+                                                            {{ status.PASSWORD_CURRENT.name }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-data">
+                                                    <label for="user-new-pass" class="profile-sec-label font16 text-light-black rubik-medium text-capitalize">Your
+                            New Password</label>
+                                                    <div class="input-group auth-pass-inputgroup">
+                                                        <input [type]="passwordNew" formControlName="newPwd" class="form-control BB-custom-control BB-custom-control-pass BB-custom-control-after-auth" id="user-current-pass" autocomplete="off" name="password">
+                                                        <button class="btn btn-light shadow-none pass-show" (click)="hideShowPassCurr(passwordNew, 'new-password')" type="button" id="password-addonhide">
+                              <img src="assets/images/eye.svg" *ngIf="!show">
+                              <img src="assets/images/eyecross.svg" *ngIf="show">
+                            </button>
+                                                    </div>
+                                                    <div *ngIf="resetSubmitted && resetValidation['newPwd'].errors" class="text-danger font12">
+                                                        <div *ngIf="resetValidation['newPwd'].errors['required']">{{ status.NEW_PWD_REQUIRED.name }}</div>
+                                                        <div *ngIf="resetValidation['newPwd'].errors['maxlength']">
+                                                            {{ status.PASSWORD_EXCEED.name }}
+                                                        </div>
+                                                        <div *ngIf="(resetValidation['newPwd'].errors['strong'] && !resetValidation['newPwd'].errors['required']) || resetValidation['newPwd'].errors['minlength']">
+                                                            {{ status.PASSWORD_WEEK.name }}
+                                                            <p class="mt-1 mb-0 font12 text-white rubik-light">{{ status.PASSWORD_CHARACTERS.name }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-data">
+                                                    <label for="user-confirm-pass" class="profile-sec-label font16 text-light-black rubik-medium text-capitalize">
+                            Confirm Your New Password
+                          </label>
+                                                    <div class="input-group auth-pass-inputgroup">
+                                                        <input [type]="passwordConf" formControlName="confirmNewPwd" class="form-control BB-custom-control BB-custom-control-pass BB-custom-control-after-auth" id="user-current-pass" autocomplete="off" name="password">
+                                                        <button class="btn btn-light shadow-none pass-show" (click)="hideShowPassCurr(passwordConf, 'confirm-password')" type="button" id="password-addonhide">
+                              <img src="assets/images/eye.svg" *ngIf="!showCon">
+                              <img src="assets/images/eyecross.svg" *ngIf="showCon">
+                            </button>
+                                                    </div>
+                                                    <div *ngIf="resetSubmitted && resetValidation['confirmNewPwd'].errors" class="text-danger font12">
+                                                        <div *ngIf="resetValidation['confirmNewPwd'].errors['required']">
+                                                            {{ status.CONFIRM_PWD_REQUIRED.name }}</div>
+                                                        <div *ngIf="resetValidation['confirmNewPwd'].errors['matching']">
+                                                            {{ status.CONFIRM_PWD_NOT_MATCH.name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4 text-center">
+                                                <button type="submit" class="btn-theme-yellow mx-400 w-100 mt-3">
+                          Reset your password
+                        </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </form>
+                        </ng-template>
+                    </li>
+                    <li class="p-0 nav-item">
+                        <a class="nav-link nav-link-profile nav-link-btn" (click)="open($event)">
+                            <button type="button" class="btn-reset-close w-100 mb-3 font16" id="3">
+                Reset Account
+              </button>
+                            <button type="button" class="btn-reset-close w-100 mb-3 font16" id="2">
+                Close Account
+              </button>
+                            <button type="button" class="btn-reset-close logout w-100 mb-0 font16 rubik-semibold" id="1">
+                LOGOUT
+              </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                <div [ngbNavOutlet]="nav" class="ml-0 bg-black-highlight bg-black-highlight-content"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

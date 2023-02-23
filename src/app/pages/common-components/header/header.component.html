@@ -1,0 +1,160 @@
+<div class="container-fluid px-md-3 px-sm-0 px-0 bg-dark-black">
+  <div class="container px-md-3 px-sm-0 px-0">
+    <nav class="navbar navbar-expand-lg bg-transparent bb-header">
+      <a class="navbar-brand" routerLink="/home">
+        <img src="assets/images/logo.svg" class="img-fluid header-logo">
+      </a>
+      <div ngbDropdown class="d-inline-block responsiveNotificationMsg d-md-none d-block">
+        <!-- <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                    Toggle dropdown
+                </button> -->
+        <a class="nav-link cursor-pointer position-relative" id="dropdownBasic1" ngbDropdownToggle>
+          <img src="assets/images/noti-icon.svg" class="mt-md-1 img-fluid noti-drp-icon"
+            (click)="notification(notificationPageDefult)">
+          <div class="notidots">
+            <span class="badge">{{notificationCount}}</span>
+          </div>
+        </a>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="notificationBox">
+          <div class="notification-inner d-flex">
+            <div class="notification-count">
+              <p class="mb-0" (click)="onClick()">{{notificationCount}}</p>
+            </div>
+            <div class="notification-title">
+              <p class="mb-0 notification-font">notification</p>
+            </div>
+          </div>
+          <div class="myBox" infinite-scroll [scrollWindow]="false" (scrolled)="onScrollDown()">
+            <div class="notification-data" *ngFor="let data of notificationAll">
+              <div class="notification-main d-flex" (click)="redirect(data.details)">
+                <div class="invite-icon">
+                  <img src="assets/images/notification_icon.svg">
+                </div>
+                <div class="notification-con">
+                  <p class="invitetitle notification-titleIn">{{data?.title}}</p>
+                  <p class="mb-0">{{data?.description}}</p>
+                  <p class="mb-0">{{getTime(data.updatedat)}}</p>
+                </div>
+                <div class="dot" *ngIf="data.isread == 0">
+                  <i class="fa fa-circle"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="notification-whistle" *ngIf="noData">
+            <div class="notification-main">
+              <img src="assets/images/noDataNotification.svg">
+            </div>
+            <p class="text-light text-center">No New Notifications</p>
+          </div>
+        </div>
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+        (click)="toggleCollapsed()">
+        <span class="navbar-toggler-icon">
+          <i class="fa fa-bars text-white"></i>
+        </span>
+      </button>
+
+      <div id="navbarSupportedContent" [ngClass]="{'collapse': collapsed, 'navbar-collapse': true}">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link cursor-pointer" routerLink="/home" routerLinkActive="active">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link cursor-pointer" routerLink="/brawls" routerLinkActive="active">Brawls</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link cursor-pointer" routerLink="/score" routerLinkActive="active">Score</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link cursor-pointer" routerLink="/leaderboard" routerLinkActive="active">Leaderboard</a>
+          </li>
+          <!-- <li class="nav-item">
+                        <a class="nav-link cursor-pointer" routerLink="/my-brawls" routerLinkActive="active">My Brawls</a>
+                    </li> -->
+          <!-- <li class="nav-item buddy-bucks-mobile">
+                        <a class="nav-link cursor-pointer" routerLinkActive="active">Notification</a>
+                    </li> -->
+          <li class="nav-item buddy-bucks-mobile">
+            <a class="nav-link cursor-pointer" routerLink="/account" routerLinkActive="active">Account</a>
+          </li>
+        </ul>
+        <span class="navbar-text text-white buddy-bucks-desktop">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item text-left">
+              <p class="mt-0 mb-0 rubik-light">Buddy Bucks</p>
+              <h5 class="mt-0 mb-0 rubik-medium">{{buddyBucks | number:'1.0-0'}}</h5>
+            </li>
+            <li class="nav-item  d-md-block d-none" ngbDropdown #drop1="ngbDropdown" placement="right">
+              <a class="nav-link cursor-pointer position-relative" ngbDropdownToggle id="dropdownBasic1">
+                <img src="assets/images/noti-icon.svg" class="mt-md-1 img-fluid noti-drp-icon"
+                  (click)="notification(notificationPageDefult)">
+                <div class="notidots">
+                  <span class="badge">{{notificationCount}}</span>
+                </div>
+              </a>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="notificationBox">
+                <div class="notification-inner d-flex">
+                  <div class="notification-count">
+                    <p class="mb-0" (click)="onClick()">{{notificationCount}}</p>
+                  </div>
+                  <div class="notification-title">
+                    <p class="mb-0 notification-font">notification</p>
+                  </div>
+                </div>
+                <div class="myBox" infinite-scroll [scrollWindow]="false" (scrolled)="onScrollDown()">
+                  <div class="notification-data" *ngFor="let data of notificationAll">
+                    <div class="notification-main d-flex" (click)="redirect(data.details)">
+                      <div class="invite-icon">
+                        <img src="assets/images/notification_icon.svg">
+                      </div>
+                      <div class="notification-con">
+                        <p class="invitetitle notification-titleIn">{{data?.title}}</p>
+                        <p class="mb-0">{{data?.description}}</p>
+                        <p class="mb-0">{{getTime(data.updatedat)}}</p>
+                      </div>
+                      <div class="dot" *ngIf="data.isread == 0">
+                        <i class="fa fa-circle"></i>
+                      </div>
+                    </div>
+
+                    <!-- <div class="notification-btns d-flex justify-content-center">
+                                                                    <button class="btn dismissBtn">Dismiss</button>
+                                                                    <button class="btn inviteBtn">invite now!</button>
+                                                                </div> -->
+                  </div>
+                  <div class="notification-whistle" *ngIf="noData">
+                    <div class="notification-main">
+                      <img src="assets/images/noDataNotification.svg">
+                    </div>
+                    <p class="text-light text-center">No New Notifications</p>
+                  </div>
+
+                </div>
+
+
+                <!-- <div class="notification-main d-flex">
+                                                            <div class="invite-icon">
+                                                                <img src="assets/images/notification_icon.svg">
+                                                            </div>
+                                                            <div class="notification-con">
+                                                                <p class="invitetitle">Play free when you invite your friends!</p>
+                                                                <p>invite your friends to Buddy Brawl and you can both play free with exclusive rewards - 2 days ago</p>
+                                                            </div>
+                                                        </div> -->
+              </div>
+            </li>
+            <li class="nav-item pr-md-0">
+              <a class="nav-link cursor-pointer" routerLink="/account">
+                <!-- Logout code is temporary -->
+                <img [src]="profilePic" class="img-fluid profile-drp-icon">
+              </a>
+            </li>
+          </ul>
+        </span>
+      </div>
+    </nav>
+  </div>
+</div>

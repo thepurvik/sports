@@ -1,0 +1,18 @@
+<div class="slider-main">
+    <ngb-carousel *ngIf="slideInfo">
+        <ng-container *ngFor="let slide of slideInfo; let i = index;">
+            <ng-template ngbSlide>
+                <div class="picsum-img-wrapper">
+                    <img [src]="slide.mediaUrl" alt="Random first slide" class="img-fluid w-100">
+                </div>
+                <div class="carousel-caption">
+                    <h1 class="text-white mt-0 mb-2 rubik-bold">{{slide.title}}</h1>
+                    <h5 class="text-white pb-3 mt-0 mb-4 rubik-regular">{{slide.description}}</h5>
+                    <a class="btn-theme-yellow-link" href="{{slide.websiteUrl}}" target="_blank">
+                        VISIT NOW
+                    </a>
+                </div>
+            </ng-template>
+        </ng-container>
+    </ngb-carousel>
+</div>

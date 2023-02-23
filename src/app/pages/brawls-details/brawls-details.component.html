@@ -1,0 +1,210 @@
+<app-header></app-header>
+<div id="wrapper" class="wrapper py-4" *ngIf="showGameData">
+    <div class="container">
+        <app-advertise-slider></app-advertise-slider>
+        <div class="bb-brawls-section mt-4">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h1 class="rubik-bold text-white text-center">
+                        BRAWLS
+                    </h1>
+                </div>
+            </div>
+            <div class="contest-details-main">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+                        <div class="contest-details-inner p-3">
+                            <p class="text-white text-left rubik-bold contest-details-title font20">{{ showGameData.title }}</p>
+                            <div class="date-icon-info">
+                                <img src="assets/images/{{showGameData.league}}.svg" class="img-fluid">
+                                <span class="rubik-regular contest-date font16">{{ transformDate(showGameData.date)
+                                    }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 align-self-center">
+                        <div class="contest-details-inner d-md-flex p-3 justify-content-lg-end">
+                            <p class="text-white text-md-right rubik-bold font16 mr-3 mb-md-0 align-self-center">{{ showGameData.total_enter}} <span class="text-white text-right rubik-regular">of {{
+                                    showGameData.totalentry }}</span></p>
+                            <button class="buddy-bucks-contest-detail-btn rubik-medium px-4" type="button">
+                                {{ showGameData.entryamount }} Buddy Bucks<i class="fa fa-angle-right ml-2"></i>
+                            </button>
+                            <img src="assets/images/i-circle.svg" class="img-fluid ml-2 cursor-pointer" (click)="payBuddyBucks(showGameData)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bb-brawls-section">
+            <div class="brawls-details-main">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 order-md-1 order-1">
+                        <div class="brawls-details-inner">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <!-- <p class="text-white text-left rubik-medium mb-0 font16">Teams</p> -->
+                                    <div class="brawls-tabing mt-0">
+                                        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+                                            <li [ngbNavItem]="1" *ngIf="showGameData.league != 'PGA'">
+                                                <a ngbNavLink>Teams</a>
+                                                <ng-template ngbNavContent>
+                                                    <div class="brawls-teams-details">
+                                                        <app-brawls-teams-list *ngIf="showGameData" [teamsCheck]="totalCount" [showGameData]="showGameData" (gameData)="setGameData($event)" (teamCount)="checkTotalCount($event)" (gameDataNew)="setNewGameData($event)">
+                                                        </app-brawls-teams-list>
+                                                    </div>
+                                                </ng-template>
+                                            </li>
+                                            <li [ngbNavItem]="2">
+                                                <a ngbNavLink>Player</a>
+                                                <ng-template ngbNavContent>
+                                                    <div class="brawls-teams-details">
+                                                        <app-brawl-player-list *ngIf="showGameData" [totalCount]="totalCount" [showGameData]="showGameData" (gameData)="setGameData($event)" (playerCount)="setCountData($event)" (gameDataNew)="setNewPlayerData($event)">
+                                                        </app-brawl-player-list>
+                                                    </div>
+                                                </ng-template>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <ng-container *ngIf="active == 1">
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                        <p class="text-white text-md-center rubik-medium mb-0 font16">Spread</p>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                        <p class="text-white text-md-center rubik-medium mb-0 font16">Total</p>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                        <p class="text-white text-md-center rubik-medium mb-0 font16">Money Line</p>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="active == 2">
+                                    <ng-container *ngIf="showGameData.league == 'MLB'">
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Hits</p>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Runs
+                                            </p>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Strikeouts
+                                            </p>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="showGameData.league == 'NBA' || showGameData.league == 'CBB'">
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Points</p>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Rebounds
+                                            </p>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Assists
+                                            </p>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="showGameData.league == 'NHL'">
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Goals</p>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Assists
+                                            </p>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Shots On Goal
+                                            </p>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="showGameData.league == 'PGA'">
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Score</p>
+                                        </div>
+                                        <!-- <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Eagles
+                                            </p>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Pars
+                                            </p>
+                                        </div> -->
+                                    </ng-container>
+                                    <ng-container *ngIf="showGameData.league == 'NFL' || showGameData.league == 'CFB'">
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Total Touchdowns</p>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Total Yards
+                                            </p>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 align-self-center">
+                                            <p class="text-white text-md-center rubik-medium mb-0 font16">Passing Interceptions
+                                            </p>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+
+                            </div>
+                        </div>
+                        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 order-md-1 order-1">
+                        <div class="brawls-details-inner">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 d-flex">
+                                    <div class="badge-count-text text-center">{{lengthSlip}}</div>
+                                    <p class="text-white text-left rubik-regular mb-0 font16 text-uppercase ml-2">Brawls Slip
+                                    </p>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 text-right">
+                                    <a class="text-white text-md-right rubik-regular mb-0 font16 decoration cursor-pointer" (click)="clearGameData()">Clear</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="brawls-details-inner py-0">
+                            <app-brawls-slip [selectedGameData]="selectedGameData" (removeData)="removeGameData($event)"></app-brawls-slip>
+                            <div class="row mt-3">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                                    <p class="text-white text-md-left rubik-regular mb-1 font14">
+                                        Wager
+                                    </p>
+                                    <p class="text-white text-md-left rubik-regular mb-1 font14">
+                                        Remaining Wager
+                                    </p>
+                                    <p class="text-white text-md-left rubik-regular mb-1 font14">
+                                        To win
+                                    </p>
+                                    <p class="text-white text-md-left rubik-regular mb-1 font14">
+                                        Potential Payout
+                                    </p>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 text-right">
+                                    <p class="text-white text-md-right rubik-regular mb-1 font14">
+                                        $ {{wagerTotal | number:'1.0-0'}}
+                                    </p>
+                                    <p class="text-white text-md-right rubik-regular mb-1 font14">
+                                        $ {{10000 - wagerTotal | number:'1.0-0'}}
+                                    </p>
+                                    <p class="text-white text-md-right rubik-regular mb-1 font14">
+                                        $ {{toWinTotal | number:'1.2-2'}}
+                                    </p>
+                                    <p class="text-white text-md-right rubik-regular mb-1 font14">
+                                        $ {{potential | number:'1.2-2'}}
+                                    </p>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right p-4">
+                                    <button (click)="submitBrawlTicket()" class="buddy-bucks-submit-btn  w-100 rubik-medium text-uppercase px-4" type="button">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

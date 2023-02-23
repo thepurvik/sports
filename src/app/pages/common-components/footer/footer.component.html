@@ -1,0 +1,74 @@
+<footer class="footer">
+    <div class="container">
+        <div class="row m-0 h-100 pt-5 pb-3 justify-content-center">
+
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 align-self-center text-lg-left text-md-center text-sm-center text-center">
+                <a class="navbar-brand" routerLink="/home">
+                    <img src="assets/images/logo.svg" class="img-fluid header-logo">
+                </a>
+            </div>
+
+            <div class="col-xl-8 col-lg-8 col-md-10 col-sm-12 col-12 align-self-center mt-lg-0 mt-md-4 mt-sm-4 mt-4">
+                <ul class="list-unstyled text-white mb-0 footer-menu">
+                    <li class="nav-item">
+                        <a class="nav-link cursor-pointer" routerLink="/about-us">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link cursor-pointer" routerLink="/faq">FAQs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link cursor-pointer" href="https://www.buddybrawl.com/terms-of-use/" target="_blank">Terms & Condition</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link cursor-pointer" href="https://www.buddybrawl.com/privacy-policy/" target="_blank">Privacy Policy</a>
+                    </li>
+                    <li class="nav-item" (click)="openSupport()">
+                        <a class="nav-link cursor-pointer">Support</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-9 col-9 text-right align-self-center px-md-3 px-sm-0 px-0 mt-lg-0 mt-md-4 mt-sm-4 mt-4">
+                <div class="d-flex float-lg-right float-md-none float-sm-none float-none">
+                    <div class="footer-social-media-main">
+                        <a class="footer-social-media decoration cursor-pointer" href="https://www.facebook.com/BetBuddyBrawl" target="_blank">
+                            <i class="fa fa-facebook text-dark-black"></i>
+                        </a>
+                    </div>
+
+                    <div class="footer-social-media-main ml-3">
+                        <a class="footer-social-media decoration cursor-pointer" href="https://twitter.com/BuddyBrawlBets" target="_blank">
+                            <i class="fa fa-twitter text-dark-black"></i>
+                        </a>
+                    </div>
+
+                    <!-- <div class="footer-social-media-main ml-3">
+                        <a class="footer-social-media decoration cursor-pointer">
+                            <i class="fa fa-linkedin-square text-dark-black"></i>
+                        </a>
+                    </div> -->
+
+                    <div class="footer-social-media-main ml-3">
+                        <a class="footer-social-media decoration cursor-pointer" href="https://www.instagram.com/buddy_brawl/" target="_blank">
+                            <i class="fa fa-instagram text-dark-black"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <p class="text-white"><span class="font-weight-bold">RESPONSIBLE GAMING:</span>
+                Please have fun and enjoy Buddy Brawl responsibly.  No one under 18 is permitted to play. If you have a gambling problem and want help, please call 1-800-522-4700 (USA) or 1-416-499-9800 (CAN)
+            </p>
+        </div>
+    </div>
+    <div class="copyright text-center rubik-regular">
+        Copyright &copy; {{year}} <span>Buddy Brawl. All Rights Reserved.</span>
+        <div>
+            <a href="https://sportsdata.io/" target="_blank">
+            <img class="right-text" src="https://sportsdata.io/assets/images/badges/sportsdataio-powered-by-dark.png" alt="Scores &amp; Stats by FantasyData">
+            </a>
+        </div>
+    </div>
+</footer>

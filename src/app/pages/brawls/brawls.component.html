@@ -1,0 +1,132 @@
+<app-header></app-header>
+<div id="wrapper" class="wrapper py-4">
+    <div class="container">
+        <app-advertise-slider></app-advertise-slider>
+        <div class="bb-brawls-section mt-4">
+            <div class="row">
+                <div class="col-xl-9 col-lg-9 col-md-8 col-sm-6 col-6">
+                    <h1 class="rubik-bold text-white text-left">
+                        BRAWLS
+                    </h1>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 text-right">
+                    <a class="decoration create-brawl-btn rubik-regular text-white text-uppercase"
+                        (click)="create_brawl()">
+                        Create Brawls
+                    </a>
+                </div>
+            </div>
+
+            <div class="brawls-tabing">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+                    <!-- <li [ngbNavItem]="1">
+                        <a ngbNavLink (click)="callApi('get-all-brawls-list')">ALL</a>
+                        <ng-template ngbNavContent>
+                            <div class="row" *ngIf="brawlData?.length > 0">
+                                <ng-container
+                                    *ngFor="let contest of brawlData | filterLeague: activeLeagueData; let c = index;">
+                                    <app-contest-card [contestData]='contest' 
+                                        class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12"></app-contest-card>
+                                </ng-container>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center mt-4 mb-5">
+                                    <a class="decoration see-more-btn rubik-regular text-white" routerLink="/home">
+                                        More {{ activeLeagueData }} Brawls<i class="fa fa-angle-right ml-2"></i></a>
+                                </div>
+                            </div>
+                            <div *ngIf="brawlData?.length === 0">
+                                <app-no-data-found></app-no-data-found>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink (click)="callApi('get-featured-brawls-list')">FEATURED</a>
+                        <ng-template ngbNavContent>
+                            <div class="row" *ngIf="brawlData?.length > 0">
+                                <ng-container
+                                    *ngFor="let contest of brawlData | filterLeague: activeLeagueData; let c = index;">
+                                    <app-contest-card [contestData]='contest' 
+                                        class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12"></app-contest-card>
+                                </ng-container>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center mt-4 mb-5">
+                                    <a class="decoration see-more-btn rubik-regular text-white" routerLink="/home">
+                                        More {{activeLeagueData}} Brawls<i class="fa fa-angle-right ml-2"></i></a>
+                                </div>
+                            </div>
+                            <div *ngIf="brawlData?.length === 0">
+                                <app-no-data-found></app-no-data-found>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="5">
+                        <a ngbNavLink (click)="callApi('get-closing-soon-brawls-list')">CLOSING SOON</a>
+                        <ng-template ngbNavContent>
+                            <div class="row" *ngIf="brawlData?.length > 0">
+                                <ng-container
+                                    *ngFor="let contest of brawlData | filterLeague: activeLeagueData; let c = index;">
+                                    <app-contest-card [contestData]='contest' 
+                                        class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12"></app-contest-card>
+                                </ng-container>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center mt-4 mb-5">
+                                    <a class="decoration see-more-btn rubik-regular text-white" routerLink="/home">
+                                        More {{ activeLeagueData }} Brawls<i class="fa fa-angle-right ml-2"></i></a>
+                                </div>
+                            </div>
+                            <div *ngIf="brawlData?.length === 0">
+                                <app-no-data-found></app-no-data-found>
+                            </div>
+                        </ng-template>
+                    </li> -->
+                    <li [ngbNavItem]="4">
+                        <a ngbNavLink (click)="callApi('get-entered-brawls-list')">ENTERED</a>
+                        <ng-template ngbNavContent>
+                            <div class="row" *ngIf="brawlData?.length > 0">
+                                <ng-container
+                                    *ngFor="let contest of brawlData | filterLeague: activeLeagueData; let c = index;">
+                                    <app-contest-card [contestData]='contest' [entered]='"entered"'
+                                        class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12"></app-contest-card>
+                                </ng-container>
+                                <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center mt-4 mb-5" *ngIf="seeMoreBt">
+                                    <a class="decoration see-more-btn rubik-regular text-white" (click)="seeMore('get-entered-brawls-list')">
+                                        More {{ activeLeagueData }} Brawls<i class="fa fa-angle-right ml-2"></i></a>
+                                </div> -->
+                            </div>
+                            <div *ngIf="brawlData?.length === 0">
+                                <app-no-data-found></app-no-data-found>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                        <a ngbNavLink (click)="callApi('get-live-brawls-list')">LIVE</a>
+                        <ng-template ngbNavContent>
+                            <div class="row" *ngIf="brawlData?.length > 0">
+                                <ng-container
+                                    *ngFor="let contest of brawlData | filterLeague: activeLeagueData; let c = index;">
+                                    <app-contest-card [contestData]='contest' [entered]='"entered"'
+                                        class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12"></app-contest-card>
+                                </ng-container>
+                                <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center mt-4 mb-5" *ngIf="seeMoreBt">
+                                    <a class="decoration see-more-btn rubik-regular text-white" (click)="seeMore('get-live-brawls-list')">
+                                        More {{ activeLeagueData }} Brawls<i class="fa fa-angle-right ml-2"></i></a>
+                                </div> -->
+                            </div>
+                            <div *ngIf="brawlData?.length === 0">
+                                <app-no-data-found></app-no-data-found>
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+                <div class="allFeaturedlosingSoon" *ngIf="leagueNameArray?.length > 0 && brawlData?.length > 0">
+                    <ul class="d-flex list-unstyled mb-0 league-filter-list">
+                        <ng-container *ngFor="let league of leagueInfo; let i = index;">
+                            <app-league-filter [leagueData]="league" [activeLeague]="activeLeagueData"
+                                (sortData)="sortToggle($event)" *ngIf="leagueNameArray.includes(league.name)">
+                            </app-league-filter>
+                        </ng-container>
+                    </ul>
+                </div>
+                <div [ngbNavOutlet]="nav" class="mt-5"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

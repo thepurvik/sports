@@ -1,0 +1,27 @@
+<div class="bb-contest-card" *ngIf="contestData">
+    <div [ngClass]="{'bb-contest-card-inner':true, 'new-border-bb-top-bottom-shape':(contestData.isfeatured == '1')}">
+        <div class="d-flex justify-content-between">
+            <h5 class="mt-0 mb-0 rubik-semi-bold font16 contest-title" *ngIf="contestData.title.length <= 13">
+                {{contestData.title}}
+            </h5>
+            <h5 class="mt-0 mb-0 rubik-semi-bold font16 contest-title" *ngIf="contestData.title.length > 13" placement="top" ngbTooltip="{{ contestData.title }}">
+                {{ (contestData.title | slice:0:13)+'...' }}
+            </h5>
+            <div class="icon-contest-info ici noWrap">
+                <img src="assets/images/featured-badges.svg" class="img-fluid" *ngIf="contestData.isbadges == '1'">
+                <img src="assets/images/i-circle.svg" class="img-fluid ml-2 cursor-pointer" (click)="navigateToInfo(contestData)">
+                <img src="assets/images/add-user.svg" class="img-fluid ml-2 cursor-pointer" (click)="invite(contestData._id)">
+            </div>
+        </div>
+        <div class="date-icon-info mt-4 mb-4">
+            <img src="assets/images/{{contestData.league}}.svg" class="img-fluid">
+            <span class="rubik-regular contest-date">{{transformDate(contestData.date) }}</span>
+        </div>
+        <div class="text-white mb-4">
+            <span class="font16 rubik-bold">{{contestData.total_enter | number:'1.0-0'}}</span> of <span class="font16 rubik-regular">{{contestData.totalentry | number:'1.0-0'}}</span>
+        </div>
+        <button class="buddy-bucks-contest-btn w-100 rubik-medium" type="button" (click)="payBuddyBucks(contestData)">
+            {{ contestData.entryamount }} Buddy Bucks<i class="fa fa-angle-right ml-2"></i>
+        </button>
+    </div>
+</div>

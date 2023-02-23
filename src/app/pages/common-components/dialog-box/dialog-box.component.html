@@ -1,0 +1,17 @@
+<div class="bb-confirmation-modal">
+  <div class="bb-confirmation-modal-inner">
+    <div class="modal-header border-0">
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <!-- <span aria-hidden="true">&times;</span> -->
+        <img src="assets/images/close-icon.svg" class="img-fluid">
+      </button>
+    </div>
+    <div class="modal-body border-0 text-center text-white">
+      <h4 class="modal-title mt-0 mb-4 rubik-bold">{{title}}</h4>
+      <p class="rubik-regular">{{description}}</p>
+    </div>
+    <div class="modal-footer border-0">
+      <button type="button" class="btn-reset-close logout w-100 mb-0 font18 rubik-semibold text-uppercase" (click)="modal.close('Save click')">{{button}}</button>
+    </div>
+  </div>
+</div>
