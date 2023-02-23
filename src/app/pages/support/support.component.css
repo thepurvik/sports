@@ -1,0 +1,56 @@
+.StateRestrictionDiv {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.StateRestrictionDiv p {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    color: #f3c556;
+}
+
+.textclr {
+    color: #ba973f;
+}
+
+#upload {
+    color: #8f8f8fd9;
+    font-family: "Rubik-Regular" !important;
+}
+
+#upload::-webkit-file-upload-button {
+    background-color: #3a3a3c !important;
+    color: #fff;
+    border: 1.5px solid #3a3a3c;
+    height: 48px;
+    font-family: "Rubik-Regular" !important;
+}
+
+.BB-custom-textarea-control {
+    background: #2C2C2E !important;
+    background-color: #2C2C2E;
+    border: 2px solid #3A3A3C;
+    box-sizing: border-box;
+    border-radius: 2px;
+    color: #ffffff;
+    font-family: 'Rubik-Regular' !important;
+}
+
+.supportFormCloseIcon {
+    position: relative;
+    bottom: 13px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.supportFormCloseIcon .fa.fa-close {
+    border: 1px solid #BA973F;
+    padding: 5px 7px;
+    border-radius: 50%;
+    font-size: 15px;
+    color: #BA973F;
+}

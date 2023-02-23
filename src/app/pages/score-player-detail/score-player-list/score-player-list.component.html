@@ -1,0 +1,148 @@
+<app-header></app-header>
+<div id="wrapper" class="wrapper py-4">
+  <div class="container">
+    <app-advertise-slider></app-advertise-slider>
+    <div class="bb-brawls-section mt-4">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 align-self-center">
+          <h1 class="rubik-bold text-white text-center mb-0 text-uppercase">
+            Score
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div class="allFeaturedlosingSoon p-md-3 p-sm-2 p-2">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="match-score-head">
+            <div class="row m-0">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12  text-center d-md-block d-none order-md-1">
+                <img src="assets/images/score-head-sideline-right.svg" class="img-fluid customHeight">
+              </div>
+              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6 py-3 order-md-2 order-1 px-0 ">
+                <div class="media cursor-pointer" *ngIf="scoreData" (click)="getTeam1Data(scoreData)">
+                  <img src={{scoreData.team1_url}} onError="this.src='assets/images/noTeam.svg'" class="mr-3 cstmWidth">
+                  <div class="media-body text-light align-items-center text-uppercase">
+                    <p class="mb-0 font13 whiteSpace font-weight"
+                      [ngClass]="activeClassTeam1 == true ? 'text-yellow' : 'text-light '">{{scoreData.team1_name}}</p>
+                    <p class="mb-0 text-light" *ngIf="quaterTime">{{quaterTime}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 d-flex justify-content-center order-md-3 order-3">
+                <div class="d-flex p-4 align-items-center" *ngIf="scoreData"
+                  [ngClass]="activeClassTeam1 == true ? 'text-light' : 'text-grey'">
+                  <span [ngClass]="win == true ? 'playerWin' : 'playerLoss'"></span>
+                  <p class="mb-0 mx-3 font-weight-bold">{{scoreData.team1_score}}</p>
+                  <span><i class="fa fa-caret-left"></i></span>
+                </div>
+                <p class="mb-0 text-white align-self-center font18" *ngIf="otherInfo">{{otherInfo}}</p>
+                <div class="d-flex p-4 align-items-center" *ngIf="scoreData"
+                  [ngClass]="activeClassTeam2 == true ? 'text-light' : 'text-grey'">
+                  <span><i class="fa fa-caret-right"></i></span>
+                  <p class="mb-0 mx-3 font-weight-bold">{{scoreData.team2_score}}</p>
+                  <span [ngClass]="loss == true ? 'playerWin' : 'playerLoss'"></span>
+                </div>
+              </div>
+              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-6 py-3 order-md-4 order-2">
+                <div class="media cursor-pointer" *ngIf="scoreData" (click)="getTeam2Data(scoreData)">
+                  <div class="media-body text-uppercase mr-3">
+                    <p class="mb-0 whiteSpace font-weight text-right font13"
+                      [ngClass]="activeClassTeam2 == true ? 'text-yellow' : 'text-light'">{{scoreData.team2_name}}</p>
+                    <p class="mb-0 text-light text-right" *ngIf="quaterTime">{{quaterTime}}</p>
+                  </div>
+                  <img src={{scoreData.team2_url}} onError="this.src='assets/images/noTeam.svg'" class="cstmWidth">
+                </div>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 d-md-block d-none order-md-5">
+                <img src="assets/images/score-head-sideline-left.svg" class="img-fluid customHeight">
+              </div>
+            </div>
+            <!-- <div class="d-flex justify-content-center">
+                            <img src="assets/images/score-head-sideline-right.svg" class="img-fluid customHeight">
+                            <div class="match-score-head-inner">
+                                <div class="d-flex align-items-center">
+                                    <div class="media">
+                                        <img src="img_avatar3.png" class="mr-3 mt-3">
+                                        <div class="media-body text-light">
+                                            <p class="mb-0">TORINTO</p>
+                                            <span>105-106</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex p-4 text-light align-items-center">
+                                        <span class="playerLoss"></span>
+                                        <p class="mb-0 mx-2">2</p>
+                                        <span><i class="fa fa-caret-left"></i></span>
+                                    </div>
+                                    <p class="mb-0 text-light align-items-center">Final</p>
+                                    <div class="d-flex p-4 text-light align-items-center">
+                                        <span class="playerWin"></span>
+                                        <p class="mb-0 mx-2">2</p>
+                                        <span><i class="fa fa-caret-right"></i></span>
+                                    </div>
+                                    <div class="media">
+                                        <div class="media-body text-light">
+                                            <p class="mb-0">TORINTO</p>
+                                            <span>105-106</span>
+                                        </div>
+                                        <img src="img_avatar3.png" class="ml-3 mt-3">
+                                    </div>
+                                </div>
+                            </div>
+                            <img src="assets/images/score-head-sideline-left.svg" class="img-fluid customHeight">
+                        </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="table-responsive">
+            <table class="table table-striped table-dark mb-0">
+              <thead>
+                <tr>
+                  <th class="rubik-bold font16 cwidth">Player Name</th>
+                  <th class="rubik-bold font16"
+                    *ngIf="leagueName == 'NBA' || leagueName == 'NCAAB' || leagueName == 'CBB'">PTS</th>
+                  <th class="rubik-bold font16"
+                    *ngIf="leagueName == 'NBA' || leagueName == 'NCAAB' || leagueName == 'CBB'">AST</th>
+                  <th class="rubik-bold font16"
+                    *ngIf="leagueName == 'NBA' || leagueName == 'NCAAB' || leagueName == 'CBB'">REB</th>
+                  <th class="rubik-bold font16" *ngIf="leagueName == 'NHL'">G</th>
+                  <th class="rubik-bold font16" *ngIf="leagueName == 'NHL'">A</th>
+                  <th class="rubik-bold font16" *ngIf="leagueName == 'NHL'">S</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngIf="teamList.length > 0">
+                  <tr *ngFor="let team of teamList">
+                    <td>{{team.player_name != null ? team.player_name : ''}}</td>
+                    <td *ngIf="leagueName == 'NBA' || leagueName == 'NCAAB' || leagueName == 'CBB'">{{team.scores.PTS ==
+                      0
+                      ? 0 : team.scores.PTS}}</td>
+                    <td *ngIf="leagueName == 'NBA' || leagueName == 'NCAAB' || leagueName == 'CBB'">{{team.scores.AST ==
+                      0
+                      ? 0 : team.scores.AST}}</td>
+                    <td *ngIf="leagueName == 'NBA' || leagueName == 'NCAAB' || leagueName == 'CBB'">{{team.scores.REB ==
+                      0
+                      ? 0 : team.scores.REB}}</td>
+                    <td *ngIf="leagueName == 'NHL'">{{team.scores.G == 0 ? 0 : team.scores.G }}</td>
+                    <td *ngIf="leagueName == 'NHL'">{{team.scores.A == 0 ? 0 : team.scores.A}}</td>
+                    <td *ngIf="leagueName == 'NHL'">{{team.scores.S == 0 ? 0 : team.scores.S}}</td>
+                  </tr>
+                </ng-container>
+                <ng-container *ngIf="teamList.length == 0">
+                  <tr>
+                    <td colspan="4">
+                      <app-no-data-found> </app-no-data-found>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

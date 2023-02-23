@@ -1,0 +1,69 @@
+.match-score-head {
+    background: #2C2C2E;
+    border: 1px solid #3A3A3C;
+    border-radius: 0px 0px 2px 2px;
+}
+
+.customHeight {
+    height: 100%;
+}
+
+.playerLoss {
+    width: 15px;
+    height: 15px;
+    padding: 5px;
+    background: #FF1717;
+    border-radius: 50%;
+}
+
+.playerWin {
+    width: 15px;
+    height: 15px;
+    padding: 5px;
+    background: #3C9A03;
+    border-radius: 50%;
+}
+
+.fa.fa-caret-left {
+    font-size: 25px !important;
+    margin-top: 3px;
+}
+
+.fa.fa-caret-right {
+    font-size: 25px !important;
+    margin-top: 3px;
+}
+
+.match-score-list {
+    background: #3A3A3C;
+    border: 2px dashed #3A3A3C;
+    border-radius: 2px 2px 0px 0px;
+    color: #FFFFFF;
+}
+
+.match-score-list-data {
+    background: #2C2C2E;
+    border: 2px dashed #2C2C2E;
+    color: #FFFFFF;
+}
+
+.text-yellow {
+    color: #BA973F;
+    font-weight: 800;
+}
+
+.cstmWidth {
+    width: 40px;
+}
+
+.font-weight {
+    font-weight: 800;
+}
+
+.whiteSpace {
+    white-space: nowrap;
+}
+
+.cwidth {
+    width: 900px;
+}

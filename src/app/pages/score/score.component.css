@@ -1,0 +1,38 @@
+li.score-links.nav-item {
+    text-transform: uppercase;
+}
+
+.brawls-tabing ul.nav-tabs.nav li.score-links.nav-item a.nav-link {
+    color: #8E8E93;
+    text-align: center;
+}
+
+.brawls-tabing ul.nav-tabs.nav li.live-link.nav-item a.nav-link {
+    color: #030404;
+    font-weight: 400px;
+}
+
+.brawls-tabing ul.nav-tabs.nav li.score-links.nav-item a.nav-link:after {
+    content: none;
+}
+
+.brawls-tabing ul.nav-tabs.nav li.score-links.nav-item a.nav-link:hover,
+.brawls-tabing ul.nav-tabs.nav li.score-links.nav-item a.nav-link.active {
+    color: #BA973F !important;
+}
+
+.brawls-tabing li.score-links.nav-item {
+    padding: 0 17px !important;
+}
+
+.score-tabing {
+    border-bottom: 2px solid #2C2C2E;
+}
+
+@media screen and (max-width:480px) {
+     ::ng-deep li .score-filter-item-sec {
+        padding: 10px 47px !important;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
+}
